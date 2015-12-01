@@ -9,14 +9,30 @@ public class User {
     private Integer reviewCount = 0;
     private Double averageStars = 0.0;
     private Integer funnyVotes = 0;
-    private Integer usefulVotes = 0;
     private Integer coolVotes = 0;
+    private Integer usefulVotes = 0;
     private String type = "user";
-
-    public User(String userID, String name) {
+/**
+ * Constructs a user object.
+ * @param userID
+ * @param name
+ * @param url
+ * @param reviewCount
+ * @param averageStars
+ * @param funnyVotes
+ * @param coolVotes
+ * @param usefulVotes
+ */
+    public User(String userID, String name, String url, Integer reviewCount, Double averageStars, Integer funnyVotes,
+            Integer coolVotes, Integer usefulVotes) {
         this.userID = userID;
-        url = "http://www.yelp.com/user_details?userid=" + userID;
         this.name = name;
+        this.url = url;
+        this.reviewCount = reviewCount;
+        this.averageStars = averageStars;
+        this.funnyVotes = funnyVotes;
+        this.coolVotes = coolVotes;
+        this.usefulVotes = usefulVotes;
     }
 
     public void addFunnyVote() {
@@ -45,17 +61,15 @@ public class User {
      *           old average with the new one
      */
     public void recalculateAverageStars(int rating) {
-        Double stars = (double) rating;
-        if (averageStars == 0.0)
-            averageStars = stars;
-        else {
-            Double totalStars = averageStars * reviewCount;
-            Double newTotalStars = totalStars + rating;
-            averageStars = newTotalStars / (reviewCount + 1);
-        }
+        Double totalStars = averageStars * reviewCount;
+        Double newTotalStars = totalStars + rating;
+        averageStars = newTotalStars / (reviewCount + 1);
     }
 
-    public void changeName(String newName){
+    public void changeName(String newName) {
         this.name = newName;
+
     }
+
+
 }
