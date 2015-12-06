@@ -5,49 +5,106 @@ import java.util.ArrayList;
 // TODO: Use this class to represent a Yelp review.
 
 public class Review {
-    private String type = "review";
+    private final String review_id;
+    private final String business_id;
+    private String text;
     private Integer funnyVotes = 0;
     private Integer coolVotes = 0;
     private Integer usefulVotes = 0;
-    private String text;
     private double stars;
-    private String userID;
-    private final String businessID;
+    private String user_id;
     private String date;
-    private final String reviewID;
+    private String type = "review";
 
-
-    public Review(String reviewID, String businessID) {
-        this.reviewID = reviewID;
-        this.businessID = businessID;
-    }
-
-    public void setFunnyVotes(Integer funnyVotes) {
+    /**
+     * Constructs a Review object.
+     * 
+     * @param review_id
+     * @param business_id
+     * @param text
+     * @param funnyVotes
+     * @param coolVotes
+     * @param usefulVotes
+     * @param stars
+     * @param user_id
+     * @param date
+     */
+    public Review(String review_id, String business_id, String text, Integer funnyVotes, Integer coolVotes,
+            Integer usefulVotes, double stars, String user_id, String date) {
+        this.review_id = review_id;
+        this.business_id = business_id;
+        this.text = text;
         this.funnyVotes = funnyVotes;
-    }
-
-    public void setCoolVotes(Integer coolVotes) {
         this.coolVotes = coolVotes;
+        this.usefulVotes = usefulVotes;
+        this.stars = stars;
+        this.user_id = user_id;
+        this.date = date;
+
+    }
+   
+    //getter methods
+    
+    public String getReviewID() {
+        return new String(review_id);
     }
 
-    public void setUsefulVotes(Integer usefulVotes) {
-        this.usefulVotes = usefulVotes;
+    public String getBusinessID() {
+        return new String(business_id);
+    }
+
+    public String getText() {
+        return new String(text);
+    }
+
+    public Integer getFunnyVotes() {
+        return new Integer(funnyVotes);
+    }
+
+    public Integer getCoolVotes() {
+        return new Integer(coolVotes);
+    }
+
+    public Integer getUsefulVotes() {
+        return new Integer(usefulVotes);
+    }
+
+    public Double getStars() {
+        return new Double(stars);
+    }
+
+    public String getUserID() {
+        return new String(user_id);
+    }
+
+    public String getDate() {
+        return new String(date);
+    }
+
+    public String getType() {
+        return new String(type);
+    }
+
+//methods for editing reviews 
+    
+    public void addFunnyVote() {
+        funnyVotes++;
+    }
+
+    public void addCoolVote() {
+        coolVotes++;
+    }
+
+    public void addUsefulVote() {
+        usefulVotes++;
     }
 
     public void setText(String text) {
-
+        this.text = text;
     }
 
     public void setStars(double stars) {
-
-    }
-
-    public void setUserID(String userID) {
-
-    }
-
-    public void setDate(String date) {
-
+        this.stars = stars;
     }
 
 }

@@ -18,9 +18,9 @@ import org.json.simple.parser.JSONParser;
 // state the rep invariant and the abstraction function.
 
 public class RestaurantDB {
-    private Map<String, User> users = new Hashtable<String, User>();
-    private final Map<String, Review> reviews = new Hashtable<String, Review>();
-    private final Map<String, Restaurant> restaurants = new Hashtable<String, Restaurant>();
+    private ArrayList<User> users = new ArrayList<User>();
+    private final ArrayList<Review> reviews = new ArrayList<Review>();
+    private final ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 
     /**
      * Create a database from the Yelp dataset given the names of three files:
@@ -49,8 +49,8 @@ public class RestaurantDB {
         return null;
     }
 
-    private Map<String, User> processUserFile(String usersJSONfilename) {
-        Map<String, User> userMap = new Hashtable<String, User>();
+    private ArrayList<User> processUserFile(String usersJSONfilename) {
+        ArrayList<User> userList = new ArrayList<User>();
         JSONParser parser = new JSONParser();
         
         BufferedReader userFile;
@@ -63,7 +63,7 @@ public class RestaurantDB {
                 JSONObject jsonObject = (JSONObject) obj;
 
 
-                String userID = (String) jsonObject.get("userID");
+                String user_id = (String) jsonObject.get("user_id");
                 String name = (String) jsonObject.get("name");
                 String url = (String) jsonObject.get("url");
                 Integer reviewCount = (Integer) jsonObject.get("reviewCount");
@@ -73,9 +73,9 @@ public class RestaurantDB {
                 Integer usefulVotes = (Integer) jsonObject.get("usefulVotes");
 
                 
-                User user = new User(userID, name, url, reviewCount, averageStars, funnyVotes,
+                User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes,
                         coolVotes, usefulVotes);
-                userMap.put(userID, user);
+                userList.add(user);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,17 +86,17 @@ public class RestaurantDB {
         }
         
         
-        return userMap;
+        return userList;
     }
 
     private User createUserFromJSONText(JSONObject text) {
 
         return user;
 
-    }
+    } 
 
-    private Map<String, Review> processReviewFile(String reviewsJSONfilename) {
-        Map<String, Review> reviewMap = new Hashtable<String, Review>();
+    private ArrayList<Review> processReviewFile(String reviewsJSONfilename) {
+        ArrayList<Review> reviewList = new ArrayList<Review>();
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new BufferedReader(new FileReader(reviewsJSONfilename)).readLine());
@@ -107,7 +107,7 @@ public class RestaurantDB {
             String city = (String) jsonObject.get("city");
             ArrayList<String> listOfCategories = new ArrayList<String>();
             JSONArray categories = (JSONArray) jsonObject.get("categories");
-            String userID = (String) jsonObject.get("userID");
+            String user_id = (String) jsonObject.get("user_id");
             String url = (String) jsonObject.get("url");
             Integer reviewCount = (Integer) jsonObject.get("reviewCount");
             Double averageStars = (Double) jsonObject.get("averageStars");
@@ -125,11 +125,11 @@ public class RestaurantDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return reviewMap;
+        return reviewList;
     }
 
-    private Map<String, Restaurant> processRestaurantFile(String restaurantJSONfilename) {
-        Map<String, Restaurant> restaurantMap = new Hashtable<String, Restaurant>();
+    private ArrayList<Restaurant> processRestaurantFile(String restaurantJSONfilename) {
+        ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
         JSONParser parser = new JSONParser();
         try {
             Object obj = parser.parse(new BufferedReader(new FileReader(restaurantJSONfilename)).readLine());
@@ -157,7 +157,7 @@ public class RestaurantDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return restaurantMap;
+        return restaurantList;
     }
 
 }

@@ -7,16 +7,15 @@ import java.util.List;
 // State the rep invariant and abs
 
 public class Restaurant {
+    private String business_id;
+    private String name;
     private boolean open;
-    private List<String> categories = new ArrayList<String>();
-    private String businessID;
     private String url;
+    private List<String> categories = new ArrayList<String>();
     private double latitude;
     private double longitude;
     private List<String> neighborhoods = new ArrayList<String>();
-    private String name;
     private String state;
-    private String type = "business";
     private double stars;
     private String city;
     private String address;
@@ -24,21 +23,143 @@ public class Restaurant {
     private String photoURL;
     private String schools;
     private int price;
+    private String type = "business";
 
-    public void addCategory(String category) {
-        categories.add(category);
+    /**
+     * Constructs a Restaurant object.
+     * 
+     * @param business_id
+     * @param name
+     * @param open
+     * @param url
+     * @param categories
+     * @param latitude
+     * @param longitude
+     * @param neighborhoods
+     * @param state
+     * @param stars
+     * @param city
+     * @param address
+     * @param reviewCount
+     * @param photoURL
+     * @param schools
+     * @param price
+     */
+
+    public Restaurant(String business_id, String name, boolean open, String url, List<String> categories,
+            double latitude, double longitude, List<String> neighborhoods, String state, double stars, String city,
+            String address, int reviewCount, String photoURL, String schools, int price) {
+        this.business_id = business_id;
+        this.name = name;
+        this.open = open;
+        this.url = url;
+        this.categories = categories;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.neighborhoods = neighborhoods;
+        this.state = state;
+        this.stars = stars;
+        this.city = city;
+        this.address = address;
+        this.reviewCount = reviewCount;
+        this.photoURL = photoURL;
+        this.schools = schools;
+        this.price = price;
+    }
+
+    // getter methods
+
+    public String getBusinessID() {
+        return new String(business_id);
+    }
+
+    public String getName() {
+        return new String(name);
+    }
+
+    public boolean getOpen() {
+        return open;
+    }
+
+    public String getURL() {
+        return new String(url);
+    }
+
+    public List<String> getCategories() {
+        return new ArrayList<String>(categories);
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public List<String> getNeighborhoods() {
+        return new ArrayList<String>(neighborhoods);
+    }
+
+    public String getState() {
+        return new String(state);
+    }
+
+    public double getStars() {
+        return new Double(stars);
+    }
+
+    public String getCity() {
+        return new String(city);
+    }
+
+    public String getAddress() {
+        return new String(address);
+    }
+
+    public Integer getReviewCount() {
+        return new Integer(reviewCount);
+    }
+
+    public String getPhotoURL() {
+        return new String(photoURL);
+    }
+
+    public String getSchools() {
+        return new String(schools);
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getType() {
+        return new String(type);
+    }
+    // methods for editing
+
+    public void changeName(String name) {
+        this.name = name;
     }
 
     public void setOpen(boolean open) {
         this.open = open;
     }
 
-    public void setBusinessID(String businessID) {
-        this.businessID = businessID;
+    public void changeURL(String url) {
+        this.url = url;
     }
 
-    public void setURL(String url) {
-        this.url = url;
+    public void addCategory(String category) {
+        if (!categories.contains(category)) {
+            categories.add(category);
+        }
+    }
+
+    public void removeCategory(String category) {
+        if (categories.contains(category)) {
+            categories.remove(category);
+        }
     }
 
     public void setLatitude(double latitude) {
@@ -50,14 +171,18 @@ public class Restaurant {
     }
 
     public void addNeighborhood(String neighborhood) {
-        neighborhoods.add(neighborhood);
+        if (!neighborhoods.contains(neighborhood)) {
+            neighborhoods.add(neighborhood);
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void removeNeighborhood(String neighborhood) {
+        if (neighborhoods.contains(neighborhood)) {
+            neighborhoods.remove(neighborhood);
+        }
     }
 
-    public void setState(String state) {
+    public void changeState(String state) {
         this.state = state;
     }
 
@@ -65,11 +190,11 @@ public class Restaurant {
         this.stars = stars;
     }
 
-    public void setCity(String city) {
+    public void changeCity(String city) {
         this.city = city;
     }
 
-    public void setAddress(String address) {
+    public void changeAddress(String address) {
         this.address = address;
     }
 
@@ -81,15 +206,15 @@ public class Restaurant {
         reviewCount++;
     }
 
-    public void setPhotoUrl(String photoURL) {
+    public void changePhotoUrl(String photoURL) {
         this.photoURL = photoURL;
     }
 
-    public void setSchools(String schools) {
+    public void changeSchools(String schools) {
         this.schools = schools;
     }
 
-    public void setPrice(int price) {
+    public void changePrice(int price) {
         this.price = price;
     }
 
