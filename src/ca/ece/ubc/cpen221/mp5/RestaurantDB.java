@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
+import java.util.List;
+
 import ca.ece.ubc.cpen221.mp5.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -70,12 +72,11 @@ public class RestaurantDB {
                     long reviewCount = (long) jsonObject.get("review_count");
                     Double averageStars = (Double) jsonObject.get("average_stars");
                     JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
-                   
+
                     long funnyVotes = (long) listOfVotes.get("funny");
                     long usefulVotes = (long) listOfVotes.get("useful");
                     long coolVotes = (long) listOfVotes.get("cool");
-                    
-                    
+
                     User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes, coolVotes,
                             usefulVotes);
                     userList.add(user);
@@ -92,7 +93,7 @@ public class RestaurantDB {
     private User createUserFromJSONText(JSONObject text) {
 
         User user = null;
-        return user ;
+        return user;
 
     }
 
@@ -129,34 +130,71 @@ public class RestaurantDB {
         return reviewList;
     }
 
-    private ArrayList<Restaurant> processRestaurantFile(String restaurantJSONfilename) {
+    public static ArrayList<Restaurant> processRestaurantFile(String restaurantJSONfilename) {
         ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
         JSONParser parser = new JSONParser();
+        BufferedReader restaurantFile;
         try {
-            Object obj = parser.parse(new BufferedReader(new FileReader(restaurantJSONfilename)).readLine());
+            restaurantFile = new BufferedReader(new FileReader(restaurantJSONfilename));
+            try {
+                while (restaurantFile.ready()) {
+                    Object obj = parser.parse(restaurantFile.readLine());
 
-            JSONObject jsonObject = (JSONObject) obj;
+                    JSONObject jsonObject = (JSONObject) obj;
 
-            String name = (String) jsonObject.get("name");
-            String city = (String) jsonObject.get("city");
-            JSONArray categories = (JSONArray) jsonObject.get("categories");
-            String userID = (String) jsonObject.get("userID");
-            String url = (String) jsonObject.get("url");
-            Integer reviewCount = (Integer) jsonObject.get("reviewCount");
-            Double averageStars = (Double) jsonObject.get("averageStars");
-            Integer funnyVotes = (Integer) jsonObject.get("funnyVotes");
-            Integer usefulVotes = (Integer) jsonObject.get("usefulVotes");
-            Integer coolVotes = (Integer) jsonObject.get("coolVotes");
-            String type = (String) jsonObject.get("type");
+                    String business_id = (String) jsonObject.get("business_id");
+                    String name = (String) jsonObject.get("name");
+                    boolean open = (boolean) jsonObject.get("open");
+                    String url = (String) jsonObject.get("url");
+                    ArrayList<String> listOfCategories = new ArrayList<String>();
+                    JSONArray categories = (JSONArray) jsonObject.get("categories");
 
-            Iterator<String> iterator = categories.iterator();
-            while (iterator.hasNext()) {
-                System.out.print(iterator.next() + " ");
+                    @SuppressWarnings("unchecked")
+                    Iterator<String> iteratorC = categories.iterator();
+                    while (iteratorC.hasNext()) {
+                        listOfCategories.add(iteratorC.next());
+                    }
+
+                    Double latitude = (Double) jsonObject.get("latitude");
+                    Double longitude = (Double) jsonObject.get("longitude");
+
+                    ArrayList<String> listOfNeighborhoods = new ArrayList<String>();
+                    JSONArray neighborhoods = (JSONArray) jsonObject.get("neighborhoods");
+
+                    @SuppressWarnings("unchecked")
+                    Iterator<String> iteratorN = neighborhoods.iterator();
+                    while (iteratorN.hasNext()) {
+                        listOfNeighborhoods.add(iteratorN.next());
+                    }
+
+                    String state = (String) jsonObject.get("state");
+                    Double stars = (Double) jsonObject.get("stars");
+                    String city = (String) jsonObject.get("city");
+                    String address = (String) jsonObject.get("full_address");
+                    long reviewCount = (long) jsonObject.get("review_count");
+                    String photoURL = (String) jsonObject.get("photo_url");
+
+                    ArrayList<String> listOfSchools = new ArrayList<String>();
+                    JSONArray schools = (JSONArray) jsonObject.get("schools");
+
+                    @SuppressWarnings("unchecked")
+                    Iterator<String> iteratorS = schools.iterator();
+                    while (iteratorS.hasNext()) {
+                        listOfSchools.add(iteratorS.next());
+                    }
+
+                    long price = (long) jsonObject.get("price");
+
+                    Restaurant restaurant = new Restaurant(business_id, name, open, url, listOfCategories, latitude,
+                            longitude, listOfNeighborhoods, state, stars, city, address, reviewCount, photoURL,
+                            listOfSchools, price);
+                    restaurantList.add(restaurant);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            System.out.println();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
         }
         return restaurantList;
     }

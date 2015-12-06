@@ -19,10 +19,10 @@ public class Restaurant {
     private double stars;
     private String city;
     private String address;
-    private int reviewCount;
+    private long reviewCount;
     private String photoURL;
-    private String schools;
-    private int price;
+    private List<String> schools = new ArrayList<String>();
+    private long price;
     private String type = "business";
 
     /**
@@ -48,7 +48,7 @@ public class Restaurant {
 
     public Restaurant(String business_id, String name, boolean open, String url, List<String> categories,
             double latitude, double longitude, List<String> neighborhoods, String state, double stars, String city,
-            String address, int reviewCount, String photoURL, String schools, int price) {
+            String address, long reviewCount, String photoURL, List<String> schools, long price) {
         this.business_id = business_id;
         this.name = name;
         this.open = open;
@@ -117,19 +117,19 @@ public class Restaurant {
         return new String(address);
     }
 
-    public Integer getReviewCount() {
-        return new Integer(reviewCount);
+    public long getReviewCount() {
+        return reviewCount;
     }
 
     public String getPhotoURL() {
         return new String(photoURL);
     }
 
-    public String getSchools() {
-        return new String(schools);
+    public List<String> getSchools() {
+        return new ArrayList<String>(schools);
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 
@@ -210,8 +210,15 @@ public class Restaurant {
         this.photoURL = photoURL;
     }
 
-    public void changeSchools(String schools) {
-        this.schools = schools;
+    public void addSchool(String school) {
+        if (!schools.contains(school)) {
+            schools.add(school);
+        }
+    }
+    public void removeSchool(String school) {
+        if (schools.contains(school)) {
+            schools.remove(school);
+        }
     }
 
     public void changePrice(int price) {
