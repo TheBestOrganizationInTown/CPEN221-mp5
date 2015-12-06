@@ -17,7 +17,7 @@ public class RestaurantDBTest {
     @Test
     public void shouldCreateUser() {
        User user = new User("_NH7Cpq3qZkByP5xR4gXog", "Chris M.", "http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog", 29, 3.89655172413793, 35, 14, 21);
-       Map<String, User> map = processUserFile("/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json");
+       Map<String, User> map = processUserFile("/Users/RCastro/workspace/CPEN221-mp5/data/users.json");
        assert(user == map.get("_NH7Cpq3qZkByP5xR4gXog"));
     }
 
