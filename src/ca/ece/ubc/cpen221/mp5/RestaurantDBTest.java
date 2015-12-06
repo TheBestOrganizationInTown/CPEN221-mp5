@@ -17,18 +17,9 @@ public class RestaurantDBTest {
 
     @Test
     public void shouldCreateUser() {
-<<<<<<< HEAD
        User user = new User("_NH7Cpq3qZkByP5xR4gXog", "Chris M.", "http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog", 29, 3.89655172413793, 35, 14, 21);
        Map<String, User> map = processUserFile("/Users/RCastro/workspace/CPEN221-mp5/data/users.json");
        assert(user == map.get("_NH7Cpq3qZkByP5xR4gXog"));
-=======
-        User user = new User("_NH7Cpq3qZkByP5xR4gXog", "Chris M.",
-                "http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog", 29, 3.89655172413793, 35, 14, 21);
-        ArrayList<User> list = processUserFile("/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json");
-        for(int i=0; i < list.size(); i++){
-            list.get(i).
-        }
->>>>>>> e73f7a8bbadb0c9d00d925737efbabb184e2638d
     }
 
     private ArrayList<User> processUserFile(String usersJSONfilename) {
