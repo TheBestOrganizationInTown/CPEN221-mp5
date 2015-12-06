@@ -17,6 +17,7 @@ import ca.ece.ubc.cpen221.mp5.RestaurantDB;
 public class RestaurantDBTest {
 
     @Test
+<<<<<<< HEAD
     public void shouldCreateUsers() {
 
         ArrayList<User> list = RestaurantDB
@@ -61,6 +62,12 @@ public class RestaurantDBTest {
         assert(list.get(8555).getURL().equals("http://www.yelp.com/user_details?userid=CmAd1cga_XQKdn1onMHtmQ"));
         assert(list.get(8555).getUserID().equals("CmAd1cga_XQKdn1onMHtmQ"));
 
+=======
+    public void shouldCreateUser() {
+       User user = new User("_NH7Cpq3qZkByP5xR4gXog", "Chris M.", "http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog", 29, 3.89655172413793, 35, 14, 21);
+       Map<String, User> map = processUserFile("/Users/RCastro/workspace/CPEN221-mp5/data/users.json");
+       assert(user == map.get("_NH7Cpq3qZkByP5xR4gXog"));
+>>>>>>> 3e9babf99f287dd9eb7eb7e9488739c416647173
     }
 
     @Test
