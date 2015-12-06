@@ -19,8 +19,8 @@ import org.json.simple.parser.JSONParser;
 
 public class RestaurantDB {
     private ArrayList<User> users = new ArrayList<User>();
-    private final ArrayList<Review> reviews = new ArrayList<Review>();
-    private final ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+    private ArrayList<Review> reviews = new ArrayList<Review>();
+    private ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 
     /**
      * Create a database from the Yelp dataset given the names of three files:
@@ -41,6 +41,8 @@ public class RestaurantDB {
      */
     public RestaurantDB(String restaurantJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
         users = processUserFile(usersJSONfilename);
+        reviews = processReviewFile(reviewsJSONfilename);
+        restaurants = processRestaurantFile(restaurantJSONfilename);
     }
 
     public Set<Restaurant> query(String queryString) {
@@ -49,51 +51,50 @@ public class RestaurantDB {
         return null;
     }
 
-    private ArrayList<User> processUserFile(String usersJSONfilename) {
+    public static ArrayList<User> processUserFile(String usersJSONfilename) {
         ArrayList<User> userList = new ArrayList<User>();
         JSONParser parser = new JSONParser();
-        
+
         BufferedReader userFile;
         try {
             userFile = new BufferedReader(new FileReader(usersJSONfilename));
             try {
-                while(userFile.ready()){
-                Object obj = parser.parse(userFile.readLine());
+                while (userFile.ready()) {
+                    Object obj = parser.parse(userFile.readLine());
 
-                JSONObject jsonObject = (JSONObject) obj;
+                    JSONObject jsonObject = (JSONObject) obj;
 
-
-                String user_id = (String) jsonObject.get("user_id");
-                String name = (String) jsonObject.get("name");
-                String url = (String) jsonObject.get("url");
-                Integer reviewCount = (Integer) jsonObject.get("reviewCount");
-                Double averageStars = (Double) jsonObject.get("averageStars");
-                Integer funnyVotes = (Integer) jsonObject.get("funnyVotes");
-                Integer coolVotes = (Integer) jsonObject.get("coolVotes");
-                Integer usefulVotes = (Integer) jsonObject.get("usefulVotes");
-
-                
-                User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes,
-                        coolVotes, usefulVotes);
-                userList.add(user);
+                    String user_id = (String) jsonObject.get("user_id");
+                    String name = (String) jsonObject.get("name");
+                    String url = (String) jsonObject.get("url");
+                    long reviewCount = (long) jsonObject.get("review_count");
+                    Double averageStars = (Double) jsonObject.get("average_stars");
+                    JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
+                   
+                    long funnyVotes = (long) listOfVotes.get("funny");
+                    long usefulVotes = (long) listOfVotes.get("useful");
+                    long coolVotes = (long) listOfVotes.get("cool");
+                    
+                    
+                    User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes, coolVotes,
+                            usefulVotes);
+                    userList.add(user);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        
-        
         return userList;
     }
 
     private User createUserFromJSONText(JSONObject text) {
 
-        return user;
+        User user = null;
+        return user ;
 
-    } 
+    }
 
     private ArrayList<Review> processReviewFile(String reviewsJSONfilename) {
         ArrayList<Review> reviewList = new ArrayList<Review>();

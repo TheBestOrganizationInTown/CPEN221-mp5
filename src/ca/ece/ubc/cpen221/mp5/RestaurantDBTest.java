@@ -12,56 +12,54 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.Test;
+import ca.ece.ubc.cpen221.mp5.RestaurantDB;
 
 public class RestaurantDBTest {
 
     @Test
     public void shouldCreateUser() {
-        User user = new User("_NH7Cpq3qZkByP5xR4gXog", "Chris M.",
-                "http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog", 29, 3.89655172413793, 35, 14, 21);
-        ArrayList<User> list = processUserFile("/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json");
-        for(int i=0; i < list.size(); i++){
-            list.get(i).
-        }
-    }
 
-    private ArrayList<User> processUserFile(String usersJSONfilename) {
-        ArrayList<User> userList = new ArrayList<User>();
-        JSONParser parser = new JSONParser();
-        
-        BufferedReader userFile;
-        try {
-            userFile = new BufferedReader(new FileReader(usersJSONfilename));
-            try {
-                while(userFile.ready()){
-                Object obj = parser.parse(userFile.readLine());
+        ArrayList<User> list = RestaurantDB
+                .processUserFile("/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json");
 
-                JSONObject jsonObject = (JSONObject) obj;
+        for (int i = 0; i < list.size(); i++) {
 
-
-                String userID = (String) jsonObject.get("userID");
-                String name = (String) jsonObject.get("name");
-                String url = (String) jsonObject.get("url");
-                Integer reviewCount = (Integer) jsonObject.get("reviewCount");
-                Double averageStars = (Double) jsonObject.get("averageStars");
-                Integer funnyVotes = (Integer) jsonObject.get("funnyVotes");
-                Integer coolVotes = (Integer) jsonObject.get("coolVotes");
-                Integer usefulVotes = (Integer) jsonObject.get("usefulVotes");
-
-                
-                User user = new User(userID, name, url, reviewCount, averageStars, funnyVotes,
-                        coolVotes, usefulVotes);
-                userList.add(user);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (list.get(i).getName().equals("Keno F.")) {
+                assert(list.get(i).getFunnyVotes() == 3);
+                assert(list.get(i).getCoolVotes() == 0);
+                assert(list.get(i).getUsefulVotes() == 10);
+                assert(list.get(i).getAverageStars() == 3.0);
+                assert(list.get(i).getReviewCount() == 9);
+                assert(list.get(i).getURL().equals("http://www.yelp.com/user_details?userid=klPQS2Scpq-jLFdLKKlsBQ"));
+                assert(list.get(i).getUserID().equals("klPQS2Scpq-jLFdLKKlsBQ"));
             }
-        } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
         }
-        
-        
-        return userList;
-    }
+        assert(list.get(0).getName().equals("Chris M."));
+        assert(list.get(0).getFunnyVotes() == 35);
+        assert(list.get(0).getUsefulVotes() == 21);
+        assert(list.get(0).getCoolVotes() == 14);
+        assert(list.get(0).getAverageStars() == 3.89655172413793);
+        assert(list.get(0).getReviewCount() == 29);
+        assert(list.get(0).getURL().equals("http://www.yelp.com/user_details?userid=_NH7Cpq3qZkByP5xR4gXog"));
+        assert(list.get(0).getUserID().equals("_NH7Cpq3qZkByP5xR4gXog"));
 
+        assert(list.get(8537).getName().equals("Garry S."));
+        assert(list.get(8537).getFunnyVotes() == 1);
+        assert(list.get(8537).getUsefulVotes() == 11);
+        assert(list.get(8537).getCoolVotes() == 5);
+        assert(list.get(8537).getAverageStars() == 3.94444444444444);
+        assert(list.get(8537).getReviewCount() == 18);
+        assert(list.get(8537).getURL().equals("http://www.yelp.com/user_details?userid=jTmBLesNgGzPy9qA9m6vfA"));
+        assert(list.get(8537).getUserID().equals("jTmBLesNgGzPy9qA9m6vfA"));
+
+        assert(list.get(8555).getName().equals("Alex M."));
+        assert(list.get(8555).getFunnyVotes() == 11);
+        assert(list.get(8555).getCoolVotes() == 7);
+        assert(list.get(8555).getUsefulVotes() == 24);
+        assert(list.get(8555).getAverageStars() == 3.47727272727273);
+        assert(list.get(8555).getReviewCount() == 44);
+        assert(list.get(8555).getURL().equals("http://www.yelp.com/user_details?userid=CmAd1cga_XQKdn1onMHtmQ"));
+        assert(list.get(8555).getUserID().equals("CmAd1cga_XQKdn1onMHtmQ"));
+
+    }
+}

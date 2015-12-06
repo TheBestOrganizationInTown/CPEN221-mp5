@@ -6,11 +6,11 @@ public class User {
     private final String user_id;
     private String name;
     private final String url;
-    private Integer reviewCount = 0;
+    private long reviewCount = 0;
     private Double averageStars = 0.0;
-    private Integer funnyVotes = 0;
-    private Integer coolVotes = 0;
-    private Integer usefulVotes = 0;
+    private long funnyVotes = 0;
+    private long coolVotes = 0;
+    private long usefulVotes = 0;
     private String type = "user";
 
     /**
@@ -25,8 +25,8 @@ public class User {
      * @param coolVotes
      * @param usefulVotes
      */
-    public User(String user_id, String name, String url, Integer reviewCount, Double averageStars, Integer funnyVotes,
-            Integer coolVotes, Integer usefulVotes) {
+    public User(String user_id, String name, String url, long reviewCount, Double averageStars, long funnyVotes,
+            long coolVotes, long usefulVotes) {
         this.user_id = user_id;
         this.name = name;
         this.url = url;
@@ -36,9 +36,9 @@ public class User {
         this.coolVotes = coolVotes;
         this.usefulVotes = usefulVotes;
     }
-    
-    //getter methods
-    
+
+    // getter methods
+
     public String getUserID() {
         return new String(user_id);
     }
@@ -51,32 +51,32 @@ public class User {
         return new String(url);
     }
 
-    public Integer getReviewCount() {
-        return new Integer(reviewCount);
+    public long getReviewCount() {
+        return reviewCount;
     }
 
     public Double getAverageStars() {
         return new Double(averageStars);
     }
 
-    public Integer getFunnyVotes() {
-        return new Integer(funnyVotes);
+    public long getFunnyVotes() {
+        return funnyVotes;
     }
 
-    public Integer getCoolVotes() {
-        return new Integer(coolVotes);
+    public long getCoolVotes() {
+        return coolVotes;
     }
 
-    public Integer getUsefulVotes() {
-        return new Integer(usefulVotes);
+    public long getUsefulVotes() {
+        return usefulVotes;
     }
 
     public String getType() {
         return new String(type);
     }
-    
-    //methods for editing a user
-    
+
+    // methods for editing a user
+
     public void addFunnyVote() {
         funnyVotes++;
     }
@@ -112,6 +112,5 @@ public class User {
         this.name = newName;
 
     }
-
 
 }
