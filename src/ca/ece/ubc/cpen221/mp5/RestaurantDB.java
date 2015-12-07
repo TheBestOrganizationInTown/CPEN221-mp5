@@ -23,6 +23,9 @@ public class RestaurantDB {
     private ArrayList<User> users = new ArrayList<User>();
     private ArrayList<Review> reviews = new ArrayList<Review>();
     private ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+    private String restaurantFile;
+    private String reviewFile;
+    private String userFile;
 
     /**
      * Create a database from the Yelp dataset given the names of three files:
@@ -41,10 +44,14 @@ public class RestaurantDB {
      * @param usersJSONfilename
      *            the filename for the users
      */
-    public RestaurantDB(String restaurantJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
+    public RestaurantDB(String restaurantsJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
+        this.restaurantFile = restaurantsJSONfilename;
+        this.reviewFile = reviewsJSONfilename;
+        this.userFile = usersJSONfilename;
         users = processUserFile(usersJSONfilename);
         reviews = processReviewFile(reviewsJSONfilename);
-        restaurants = processRestaurantFile(restaurantJSONfilename);
+        restaurants = processRestaurantFile(restaurantsJSONfilename);
+        System.out.println(restaurants);
     }
 
     public Set<Restaurant> query(String queryString) {
@@ -53,7 +60,14 @@ public class RestaurantDB {
         return null;
     }
 
-    public static ArrayList<User> processUserFile(String usersJSONfilename) {
+    /**
+     * Parses a JSON file and gets all the user information from it, storing the info in 
+     * a list of User objects.
+     * 
+     * @param usersJSONfilename
+     * @return a list of Users
+     */
+    private ArrayList<User> processUserFile(String usersJSONfilename) {
         ArrayList<User> userList = new ArrayList<User>();
         JSONParser parser = new JSONParser();
 
@@ -90,47 +104,62 @@ public class RestaurantDB {
         return userList;
     }
 
-    private User createUserFromJSONText(JSONObject text) {
-
-        User user = null;
-        return user;
-
-    }
-
+    /**
+     * Parses a JSON file and gets all the review information from it, storing the info in 
+     * a list of Review objects.
+     * 
+     * @param usersJSONfilename
+     * @return a list of Reviews
+     */
     private ArrayList<Review> processReviewFile(String reviewsJSONfilename) {
         ArrayList<Review> reviewList = new ArrayList<Review>();
         JSONParser parser = new JSONParser();
+        BufferedReader reviewFile;
         try {
-            Object obj = parser.parse(new BufferedReader(new FileReader(reviewsJSONfilename)).readLine());
+            reviewFile = new BufferedReader(new FileReader(reviewsJSONfilename));
+            try {
+                while (reviewFile.ready()) {
 
-            JSONObject jsonObject = (JSONObject) obj;
+                    Object obj = parser.parse(reviewFile.readLine());
 
-            String name = (String) jsonObject.get("name");
-            String city = (String) jsonObject.get("city");
-            ArrayList<String> listOfCategories = new ArrayList<String>();
-            JSONArray categories = (JSONArray) jsonObject.get("categories");
-            String user_id = (String) jsonObject.get("user_id");
-            String url = (String) jsonObject.get("url");
-            Integer reviewCount = (Integer) jsonObject.get("reviewCount");
-            Double averageStars = (Double) jsonObject.get("averageStars");
-            Integer funnyVotes = (Integer) jsonObject.get("funnyVotes");
-            Integer usefulVotes = (Integer) jsonObject.get("usefulVotes");
-            Integer coolVotes = (Integer) jsonObject.get("coolVotes");
-            String type = (String) jsonObject.get("type");
+                    JSONObject jsonObject = (JSONObject) obj;
 
-            Iterator<String> iterator = categories.iterator();
-            while (iterator.hasNext()) {
-                System.out.print(iterator.next() + " ");
+                    String review_id = (String) jsonObject.get("review_id");
+                    String business_id = (String) jsonObject.get("business_id");
+                    String text = (String) jsonObject.get("text");
+
+                    JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
+
+                    long funnyVotes = (long) listOfVotes.get("funny");
+                    long usefulVotes = (long) listOfVotes.get("useful");
+                    long coolVotes = (long) listOfVotes.get("cool");
+                    long stars = (long) jsonObject.get("stars");
+                    String user_id = (String) jsonObject.get("user_id");
+                    String date = (String) jsonObject.get("date");
+
+                    Review review = new Review(review_id, business_id, text, funnyVotes, coolVotes, usefulVotes, stars,
+                            user_id, date);
+                    reviewList.add(review);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                reviewFile.close();
             }
-            System.out.println();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
         }
         return reviewList;
     }
 
-    public static ArrayList<Restaurant> processRestaurantFile(String restaurantJSONfilename) {
+    /**
+     * Parses a JSON file and gets all the restaurant information from it, storing the info in 
+     * a list of Restaurant objects.
+     * 
+     * @param usersJSONfilename
+     * @return a list of Restaurants
+     */
+    private ArrayList<Restaurant> processRestaurantFile(String restaurantJSONfilename) {
         ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
         JSONParser parser = new JSONParser();
         BufferedReader restaurantFile;
@@ -197,6 +226,38 @@ public class RestaurantDB {
             e1.printStackTrace();
         }
         return restaurantList;
+    }
+
+    /**
+     * Creates a list of Restaurants from the database.
+     * @return list of Restaurants in this database
+     */
+    public ArrayList<Restaurant> getRestaurants() {
+        ArrayList<Restaurant> list = processRestaurantFile(restaurantFile);
+        return list;
+    }
+    /**
+     * Creates a list of Users from the database.
+     * @return list of Users in this database
+     */
+    public ArrayList<User> getUsers() {
+        ArrayList<User> list = processUserFile(userFile);
+        return list;
+    }
+    /**
+     * Creates a list of Reviews from the database.
+     * @return list of Reviews in this database
+     */
+    public ArrayList<Review> getReviews() {
+        ArrayList<Review> list = processReviewFile(reviewFile);
+        return list;
+    }
+
+    private User createUserFromJSONText(JSONObject text) {
+
+        User user = null;
+        return user;
+
     }
 
 }

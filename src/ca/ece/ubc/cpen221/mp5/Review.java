@@ -8,10 +8,10 @@ public class Review {
     private final String review_id;
     private final String business_id;
     private String text;
-    private Integer funnyVotes = 0;
-    private Integer coolVotes = 0;
-    private Integer usefulVotes = 0;
-    private double stars;
+    private long funnyVotes = 0;
+    private long coolVotes = 0;
+    private long usefulVotes = 0;
+    private long stars;
     private String user_id;
     private String date;
     private String type = "review";
@@ -29,8 +29,8 @@ public class Review {
      * @param user_id
      * @param date
      */
-    public Review(String review_id, String business_id, String text, Integer funnyVotes, Integer coolVotes,
-            Integer usefulVotes, double stars, String user_id, String date) {
+    public Review(String review_id, String business_id, String text, long funnyVotes, long coolVotes,
+            long usefulVotes, long stars, String user_id, String date) {
         this.review_id = review_id;
         this.business_id = business_id;
         this.text = text;
@@ -57,20 +57,20 @@ public class Review {
         return new String(text);
     }
 
-    public Integer getFunnyVotes() {
-        return new Integer(funnyVotes);
+    public long getFunnyVotes() {
+        return funnyVotes;
     }
 
-    public Integer getCoolVotes() {
-        return new Integer(coolVotes);
+    public long getCoolVotes() {
+        return coolVotes;
     }
 
-    public Integer getUsefulVotes() {
-        return new Integer(usefulVotes);
+    public long getUsefulVotes() {
+        return usefulVotes;
     }
 
-    public Double getStars() {
-        return new Double(stars);
+    public long getStars() {
+        return stars;
     }
 
     public String getUserID() {
@@ -103,7 +103,7 @@ public class Review {
         this.text = text;
     }
 
-    public void setStars(double stars) {
+    public void setStars(long stars) {
         this.stars = stars;
     }
 
