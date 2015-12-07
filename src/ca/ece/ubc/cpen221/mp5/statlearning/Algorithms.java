@@ -13,20 +13,23 @@ public class Algorithms {
 	 * @return
 	 */
 	public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {
-		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants);
+		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants());
 		List<Set<Restaurant>> clusterList = new ArrayList<Set<Restaurant>>();
 
 		Map<Integer, Location> seedMap = initializeSeeds(k, restaurantList);
-
-		boolean sameAsBefore = false;
-
+		Map<Integer, Location> updatedSeeds;
+		boolean sameAsBefore;
 		clusterList = updateClusters(restaurantList, seedMap);
-
 		do {
-			if (seedMap.equals(updateCentroids(clusterList)))
-				sameAsBefore = true;
-
-			seedMap = updateCentroids(clusterList);
+			sameAsBefore = true;
+			updatedSeeds = updateCentroids(clusterList);
+			for (int i = 0; i < seedMap.size(); i++){
+				if(seedMap.get(i).getLatitude() != updatedSeeds.get(i).getLatitude())
+					sameAsBefore = false;
+				if(seedMap.get(i).getLongitude() != updatedSeeds.get(i).getLongitude())
+					sameAsBefore = false;
+			}
+			seedMap = new HashMap<Integer, Location>(updatedSeeds);
 			clusterList = updateClusters(restaurantList, seedMap);
 		} while (!sameAsBefore);
 
@@ -44,7 +47,7 @@ public class Algorithms {
 				restaurantItem = setIterator.next();
 
 				stringJSON = stringJSON.concat("{\"x\": " + restaurantItem.getLatitude() + ", ");
-				stringJSON = stringJSON.concat("\"y\": " + restaurantItem.getLongitude() + ", ");	
+				stringJSON = stringJSON.concat("\"y\": " + restaurantItem.getLongitude() + ", ");
 				stringJSON = stringJSON.concat("\"name\": \"" + restaurantItem.getName() + "\", ");
 				stringJSON = stringJSON.concat("\"cluster\": " + i + ", ");
 				stringJSON = stringJSON.concat("\"weight\": " + 2.0 + "}, ");
@@ -119,16 +122,18 @@ public class Algorithms {
 
 		List<Set<Restaurant>> clusterList = new ArrayList<Set<Restaurant>>();
 		Iterator<Restaurant> restaurantIterator = restaurantList.iterator();
-
+		Set<Restaurant> emptySet = new HashSet<Restaurant>();
+		for (int i = 0; i < seedMap.size(); i++) {
+			emptySet = new HashSet<Restaurant>();
+			clusterList.add(i, emptySet);
+		}
 		Restaurant restaurantToBeAssigned;
 		int assignmentNumber;
 		while (restaurantIterator.hasNext()) {
 			restaurantToBeAssigned = restaurantIterator.next();
 			assignmentNumber = calculateClosestSeed(seedMap, restaurantToBeAssigned);
-
 			clusterList.get(assignmentNumber).add(restaurantToBeAssigned);
 		}
-
 		return clusterList;
 	}
 
@@ -171,7 +176,7 @@ public class Algorithms {
 		distanceY = locationB.getLongitude() - locationA.getLongitude();
 
 		// sqrt(distanceX^2 + distanceY^2)
-		euclideanDistance = Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 1 / 2);
+		euclideanDistance = Math.pow(Math.pow(distanceX, 2.0) + Math.pow(distanceY, 2.0), 1.0 / 2.0);
 
 		return new Double(euclideanDistance);
 	}
@@ -205,10 +210,9 @@ public class Algorithms {
 		double averageY;
 
 		Restaurant currentRestaurant;
-		int clusterSize = new Integer(clusterGroup.size() + 1);
+		double clusterSize = new Integer(clusterGroup.size());
 
 		Iterator<Restaurant> clusterIterator = clusterGroup.iterator();
-
 		while (clusterIterator.hasNext()) {
 			currentRestaurant = clusterIterator.next();
 			totalX += currentRestaurant.getLatitude();
