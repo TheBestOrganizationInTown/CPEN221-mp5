@@ -11,6 +11,10 @@ public class Location {
 		this.longitude = restaurant.getLongitude();
 	}
 	
+	public Location(double latitude, double longitude){
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 	public double getLatitude(){
 		return new Double(this.latitude);
 	}
