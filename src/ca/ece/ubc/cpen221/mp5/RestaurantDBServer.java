@@ -9,13 +9,35 @@ public class RestaurantDBServer {
 	 * Constructor
 	 * 
 	 * @param port
-	 * @param filename1
-	 * @param filename2
-	 * @param filename3
+	 * @param restaurantsJSONfilename
+	 * @param reviewsJSONfilename
+	 * @param usersJSONfilename
 	 */
-	public RestaurantDBServer(int port, String filename1, String filename2, String filename3) {
+	public RestaurantDBServer(int port, String restaurantsJSONfilename, String reviewsJSONfilename, String usersJSONfilename) {
 		// TODO: See the problem statement for what the arguments are.
 		// TODO: Rename the arguments suitably.
+	    
+	    
+	    
 	}
+	public void randomReview(String restaurantName){
+        
+    }
+	
+	public void getRestaurant(String businessId){
+        
+    }
+	
+	public void addRestaurant(String JSONrestaurant){
+        
+    }
+	
+	public void addUser(String JSONuser){
+        
+    }
+	
+	public void addReview(String JSONreview ){
+        
+    }
 
 }
