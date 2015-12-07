@@ -13,18 +13,24 @@ public class Algorithms {
 	 * @return
 	 */
 	public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {
-		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants); // some
-		// observer
-		// method
+		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants);
 
-		Map<Restaurant, Location> restaurantMap = populateMap(restaurantList);
 		Map<Integer, Location> seedMap = initializeSeeds(k, restaurantList);
+		
+		List<Set<Restaurant>> clusterList = new ArrayList<Set<Restaurant>>();
+		boolean sameAsBefore = false;
+		
+		clusterList = updateClusters(restaurantList, seedMap);
+		
+		do{
+		if(seedMap.equals(updateCentroids(clusterList)))
+				sameAsBefore = true;
 
-		for (Map.Entry<Restaurant, Location> entry : restaurantMap.entrySet()) {
-
-		}
-
-		return null;
+		seedMap = updateCentroids(clusterList);
+		clusterList = updateClusters(restaurantList, seedMap);
+		}while(!sameAsBefore);
+		
+		return clusterList;
 	}
 
 	public static String convertClustersToJSON(List<Set<Restaurant>> clusters) {
@@ -86,10 +92,25 @@ public class Algorithms {
 		return new HashMap<Integer, Location>(seedMap);
 	}
 
+	/**
+	 * 
+	 * @param restaurantList
+	 * @param seedMap
+	 * @return
+	 */
 	private static List<Set<Restaurant>> updateClusters(List<Restaurant> restaurantList, Map<Integer,Location> seedMap) {
 		
 		List<Set<Restaurant>> clusterList = new ArrayList<Set<Restaurant>>();
-		List<Restaurant> listCopy = new LinkedList<Restaurant>(restaurantList);
+		Iterator<Restaurant> restaurantIterator = restaurantList.iterator();
+		
+		Restaurant restaurantToBeAssigned;
+		int assignmentNumber;
+		while(restaurantIterator.hasNext()){
+			restaurantToBeAssigned = restaurantIterator.next();
+			assignmentNumber = calculateClosestSeed(seedMap, restaurantToBeAssigned);
+			
+			clusterList.get(assignmentNumber).add(restaurantToBeAssigned);
+		}
 		
 		return clusterList;
 	}
@@ -118,9 +139,10 @@ public class Algorithms {
 
 	/**
 	 * Returns the euclidean distance between locationA and locationB
+	 * 
 	 * @param locationA
 	 * @param locationB
-	 * @return
+	 * @return double
 	 */
 	private static Double calculateDistance(Location locationA, Location locationB) {
 
@@ -130,11 +152,9 @@ public class Algorithms {
 
 		distanceX = locationB.getLatitude() - locationA.getLatitude();
 		distanceY = locationB.getLongitude() - locationA.getLongitude();
-
-		euclideanDistance = Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 1 / 2); // sqrt(
-																								// distanceX^2
-																								// +
-																								// distanceY^2)
+		
+		// sqrt(distanceX^2 + distanceY^2)
+		euclideanDistance = Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 1 / 2); 
 
 		return new Double(euclideanDistance);
 	}
@@ -142,14 +162,14 @@ public class Algorithms {
 	/**
 	 * 
 	 * @param clusterGroupList
-	 * @return
+	 * @return Msp<Integer, Location>
 	 */
-	private static Map<Integer, Location> updateCentroids(List<Set<Restaurant>> clusterGroupList) {
+	private static Map<Integer, Location> updateCentroids(List<Set<Restaurant>> clusterList) {
 		Map<Integer, Location> seedMap = new HashMap<Integer, Location>();
-		int seedQuantity = clusterGroupList.size();
+		int seedQuantity = clusterList.size();
 
 		for (int i = 0; i < seedQuantity; i++) {
-			Location newCentroid = calculateCentroid(clusterGroupList.get(i));
+			Location newCentroid = calculateCentroid(clusterList.get(i));
 			seedMap.put(i, newCentroid);
 		}
 
