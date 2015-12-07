@@ -13,7 +13,7 @@ public class Algorithms {
 	 * @return
 	 */
 	public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {
-		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants);
+		List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants());
 		List<Set<Restaurant>> clusterList = new ArrayList<Set<Restaurant>>();
 
 		Map<Integer, Location> seedMap = initializeSeeds(k, restaurantList);

@@ -51,7 +51,6 @@ public class RestaurantDB {
         users = processUserFile(usersJSONfilename);
         reviews = processReviewFile(reviewsJSONfilename);
         restaurants = processRestaurantFile(restaurantsJSONfilename);
-        System.out.println(restaurants);
     }
 
     public Set<Restaurant> query(String queryString) {
