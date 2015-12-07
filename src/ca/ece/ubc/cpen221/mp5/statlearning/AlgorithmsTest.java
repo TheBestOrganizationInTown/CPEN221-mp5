@@ -14,7 +14,7 @@ public class AlgorithmsTest {
 	
 	@Test
 	public void test() {
-		List<Set<Restaurant>> clusters = Algorithms.kMeansClustering(50, db);
+		List<Set<Restaurant>> clusters = Algorithms.kMeansClustering(100, db);
 		System.out.println(Algorithms.convertClustersToJSON(clusters));
 	}
 

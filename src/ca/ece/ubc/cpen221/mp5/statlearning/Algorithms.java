@@ -23,12 +23,20 @@ public class Algorithms {
 		do {
 			sameAsBefore = true;
 			updatedSeeds = updateCentroids(clusterList);
-			for (int i = 0; i < seedMap.size(); i++){
-				if(seedMap.get(i).getLatitude() != updatedSeeds.get(i).getLatitude())
+
+			for (int i = 0; i < seedMap.size(); i++) {
+				Double latitude = seedMap.get(i).getLatitude();
+				double updatedLatitude = updatedSeeds.get(i).getLatitude();
+				Double longitude = seedMap.get(i).getLongitude();
+				double updatedLongitude = updatedSeeds.get(i).getLongitude();
+				if (!latitude.equals(updatedLatitude)) {
 					sameAsBefore = false;
-				if(seedMap.get(i).getLongitude() != updatedSeeds.get(i).getLongitude())
+				}
+				if (!longitude.equals(updatedLongitude)) {
 					sameAsBefore = false;
+				}
 			}
+
 			seedMap = new HashMap<Integer, Location>(updatedSeeds);
 			clusterList = updateClusters(restaurantList, seedMap);
 		} while (!sameAsBefore);
@@ -97,15 +105,22 @@ public class Algorithms {
 	private static Map<Integer, Location> initializeSeeds(int k, List<Restaurant> restaurantList) {
 		Map<Integer, Location> seedMap = new HashMap<Integer, Location>();
 		List<Restaurant> listCopy = new LinkedList<Restaurant>(restaurantList);
+		List<Location> currentLocations = new LinkedList<Location>();
+
 		Random randomizer = new Random();
 		int randomIndex;
 		Location randomLocation;
-
 		for (int i = 0; i < k; i++) {
-			randomIndex = randomizer.nextInt(listCopy.size());
-			randomLocation = new Location(listCopy.get(randomIndex));
-			listCopy.remove(randomIndex);
-			seedMap.put(i, randomLocation);
+			if (i < restaurantList.size()) {
+				randomIndex = randomizer.nextInt(listCopy.size());
+				randomLocation = new Location(listCopy.get(randomIndex));
+
+				assert (!currentLocations.contains(randomLocation));
+				currentLocations.add(randomLocation);
+
+				listCopy.remove(randomIndex);
+				seedMap.put(i, randomLocation);
+			} 
 		}
 
 		return new HashMap<Integer, Location>(seedMap);
