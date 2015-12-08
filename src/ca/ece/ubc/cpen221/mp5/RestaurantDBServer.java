@@ -38,12 +38,23 @@ public class RestaurantDBServer {
             String usersJSONfilename) throws IOException {
        database = new RestaurantDB(restaurantsJSONfilename, reviewsJSONfilename, usersJSONfilename);
        
-        //I think I need to call serve for it to run, but I am not sure
-        while (true) {
-            serve();
-        }
+       
     }
-
+    public static void main(String[] args){
+        int port = Integer.parseInt(args[0]);
+        RestaurantDBServer server;
+        try {
+            server = new RestaurantDBServer(port, args[1], args[2], args[3]);
+            try {
+                server.serve();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
     /**
      * Run the server, listening for connections and handling them.
      * 
@@ -166,16 +177,16 @@ public class RestaurantDBServer {
     public static Query parse(String string) {
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(string);
-        FormulaLexer lexer = new FormulaLexer(stream);
+        GrammarLexer lexer = new GrammarLexer(stream);
         lexer.reportErrorsAsExceptions();
         TokenStream tokens = new CommonTokenStream(lexer);
 
         // Feed the tokens into the parser.
-        FormulaParser parser = new FormulaParser(tokens);
+        GrammarParser parser = new GrammarParser(tokens);
         parser.reportErrorsAsExceptions();
 
         // Generate the parse tree using the starter rule.
-        ParseTree tree = parser.formula(); // "root" is the starter rule.
+        ParseTree tree = parser.grammar(); // "root" is the starter rule.
 
         // debugging option #1: print the tree to the console
         System.err.println(tree.toStringTree(parser));
@@ -184,14 +195,14 @@ public class RestaurantDBServer {
         ((RuleContext) tree).inspect(parser);
 
         // debugging option #3: walk the tree with a listener
-        new ParseTreeWalker().walk(new FormulaListener_PrintEverything(), tree);
+        new ParseTreeWalker().walk(new GrammarListener_PrintEverything(), tree);
 
         // Finally, construct a Document value by walking over the parse tree.
         ParseTreeWalker walker = new ParseTreeWalker();
-        FormulaListener_FormulaCreator listener = new FormulaListener_FormulaCreator();
+        GrammarListener_GrammarCreator listener = new GrammarListener_GrammarCreator();
         walker.walk(listener, tree);
 
         // return the Document value that the listener created
-        return listener.getFormula();
+        return listener.getGrammar();
     }
 }

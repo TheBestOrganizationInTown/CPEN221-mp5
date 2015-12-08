@@ -17,6 +17,7 @@ import org.junit.Test;
 import ca.ece.ubc.cpen221.mp5.RestaurantDB;
 
 public class RestaurantDBTest {
+    
     String restaurantFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/restaurants.json";
     String reviewFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/reviews.json";
     String userFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json";
