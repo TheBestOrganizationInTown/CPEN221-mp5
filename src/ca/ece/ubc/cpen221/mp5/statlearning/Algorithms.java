@@ -5,13 +5,12 @@ import ca.ece.ubc.cpen221.mp5.*;
 
 public class Algorithms {
 
-
     /**
      * Use k-means clustering to compute k clusters for the restaurants in the
      * database.
      * 
      * @param db
-     * @return
+     * @return List<Set<Restaurant>>
      */
     public static List<Set<Restaurant>> kMeansClustering(int k, RestaurantDB db) {
         List<Restaurant> restaurantList = new ArrayList<Restaurant>(db.getRestaurants());
@@ -45,6 +44,12 @@ public class Algorithms {
         return clusterList;
     }
 
+    /**
+     * Return a JSON string dependent on the given clusters
+     * 
+     * @param clusters
+     * @return String
+     */
     public static String convertClustersToJSON(List<Set<Restaurant>> clusters) {
         String stringJSON = new String();
         Restaurant restaurantItem;
@@ -66,6 +71,15 @@ public class Algorithms {
         return stringJSON;
     }
 
+    /**
+     * Return a linear regression function where x is the values given by
+     * feature function, and y is the user's rating
+     * 
+     * @param u
+     * @param db
+     * @param featureFunction
+     * @return LinearRegressionFunction
+     */
     public static LinearRegressionFunction getPredictor(User u, RestaurantDB db, MP5Function featureFunction) {
         String UserID = u.getUserID();
         List<Review> reviews = db.getReviews();
@@ -90,6 +104,14 @@ public class Algorithms {
         return linearRegression;
     }
 
+    /**
+     * Returns the MP5 function that gives the best best-fit line
+     * 
+     * @param u
+     * @param db
+     * @param featureFunctionList
+     * @return MP5Function
+     */
     public static MP5Function getBestPredictor(User u, RestaurantDB db, List<MP5Function> featureFunctionList) {
         MP5Function currentFeature = featureFunctionList.get(0);
         LinearRegressionFunction currentLinearRegression = getPredictor(u, db, currentFeature);
@@ -132,10 +154,12 @@ public class Algorithms {
     }
 
     /**
+     * Returns a map of k seeds and their location, with locations being given
+     * by restaurantList
      * 
      * @param k
      * @param restaurantList
-     * @return
+     * @return Map<Integer,Location>
      */
     private static Map<Integer, Location> initializeSeeds(int k, List<Restaurant> restaurantList) {
         Map<Integer, Location> seedMap = new HashMap<Integer, Location>();
@@ -150,7 +174,7 @@ public class Algorithms {
                 randomIndex = randomizer.nextInt(listCopy.size());
                 randomLocation = new Location(listCopy.get(randomIndex));
 
-                assert (!currentLocations.contains(randomLocation));
+                assert(!currentLocations.contains(randomLocation));
                 currentLocations.add(randomLocation);
 
                 listCopy.remove(randomIndex);
@@ -162,10 +186,12 @@ public class Algorithms {
     }
 
     /**
+     * Returns a list of a set of restaurants with the index corresponding to
+     * the cluster they are in (the closest seed).
      * 
      * @param restaurantList
      * @param seedMap
-     * @return
+     * @return List<Set<Restaurant>>
      */
     private static List<Set<Restaurant>> updateClusters(List<Restaurant> restaurantList,
             Map<Integer, Location> seedMap) {
@@ -188,10 +214,11 @@ public class Algorithms {
     }
 
     /**
+     * Returns the index of given seed closest to given restaurant.
      * 
      * @param seedMap
      * @param restaurant
-     * @return
+     * @return Integer
      */
     private static Integer calculateClosestSeed(Map<Integer, Location> seedMap, Restaurant restaurant) {
         int closestSeed = 0;
@@ -232,6 +259,7 @@ public class Algorithms {
     }
 
     /**
+     * Returns a Map of seeds based on the centroids of each cluster
      * 
      * @param clusterGroupList
      * @return Msp<Integer, Location>
@@ -249,9 +277,10 @@ public class Algorithms {
     }
 
     /**
+     * Calculates the centroid of a given clusterGroup
      * 
      * @param clusterGroup
-     * @return
+     * @return Location
      */
     private static Location calculateCentroid(Set<Restaurant> clusterGroup) {
         double totalX = 0;
