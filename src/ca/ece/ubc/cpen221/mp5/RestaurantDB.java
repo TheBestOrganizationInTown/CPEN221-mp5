@@ -1,6 +1,7 @@
 package ca.ece.ubc.cpen221.mp5;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
@@ -71,8 +72,10 @@ public class RestaurantDB {
 
     
     public Set<Restaurant> query(String queryString) {
-        
-        return null;
+        Set<Restaurant> set = new HashSet<Restaurant>();
+        ParseTree tree = FormulaFactory.parse(queryString);
+System.out.println(tree);
+        return set;
     }
 
     /**

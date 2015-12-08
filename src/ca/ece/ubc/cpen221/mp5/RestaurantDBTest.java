@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
+import javax.management.Query;
+
+import org.antlr.v4.runtime.TokenStream;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -425,5 +429,10 @@ public class RestaurantDBTest {
             }
         }
 
+    }
+    @Test
+    public void shouldTokenize(){
+        RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
+        Set<Restaurant> set = database.query("in(\"Telegraph Ave\") && (category(\"Chinese\") || category(\"Italian\")) && price(1..2)");
     }
 }
