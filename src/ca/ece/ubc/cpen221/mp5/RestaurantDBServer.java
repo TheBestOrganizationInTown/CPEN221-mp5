@@ -108,26 +108,46 @@ public class RestaurantDBServer {
                         int last = query.lastIndexOf("\"");
                         String restaurantName = query.substring(first +1, last);
                         String response = database.randomReview(restaurantName);
+                        System.err.println("reply: " + response);
+                        out.println(response);
                     }
                     if (query.contains("getRestaurant")) {
+                        int first = query.indexOf("\"");
+                        int last = query.lastIndexOf("\"");
+                        String businessID = query.substring(first +1, last);
+                        String response = database.getRestaurant(businessID);
+                        System.err.println("reply: " + response);
+                        out.println(response);
 
                     }
                     if (query.contains("addRestaurant")) {
+                        int first = query.indexOf("\"");
+                        int last = query.lastIndexOf("\"");
+                        String JSONrestaurant = query.substring(first +1, last);
+                        String response = database.getRestaurant(JSONrestaurant);
+                        System.err.println("reply: " + response);
+                        out.println(response);
 
                     }
                     if (query.contains("addUser")) {
-
+                        int first = query.indexOf("\"");
+                        int last = query.lastIndexOf("\"");
+                        String JSONuser = query.substring(first +1, last);
+                        String response = database.getRestaurant(JSONuser);
+                        System.err.println("reply: " + response);
+                        out.println(response);
                     }
                     if (query.contains("addReview")) {
-
+                        int first = query.indexOf("\"");
+                        int last = query.lastIndexOf("\"");
+                        String JSONreview = query.substring(first +1, last);
+                        String response = database.getRestaurant(JSONreview);
+                        System.err.println("reply: " + response);
+                        out.println(response);
                     } else {
                         Set<Restaurant> response = database.query(query);
                     }
-
-                    // compute answer and send back to client
-                    BigInteger y = fibonacci(x);
-                    System.err.println("reply: " + y);
-                    out.println(y);
+                    
                 } catch (NumberFormatException e) {
                     // complain about ill-formatted request
                     System.err.println("reply: err");
@@ -174,25 +194,4 @@ public class RestaurantDBServer {
         // return the Document value that the listener created
         return listener.getFormula();
     }
-
-    public void randomReview(String restaurantName) {
-
-    }
-
-    public void getRestaurant(String businessId) {
-
-    }
-
-    public void addRestaurant(String JSONrestaurant) {
-
-    }
-
-    public void addUser(String JSONuser) {
-
-    }
-
-    public void addReview(String JSONreview) {
-
-    }
-
 }
