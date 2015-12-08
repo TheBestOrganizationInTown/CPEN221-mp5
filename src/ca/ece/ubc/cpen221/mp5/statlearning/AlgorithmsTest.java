@@ -7,9 +7,9 @@ import java.util.*;
 import ca.ece.ubc.cpen221.mp5.*;
 
 public class AlgorithmsTest {
-	String restaurantFile = "/Users/RCastro/workspace/CPEN221-mp5/data/restaurants.json";
-	String reviewFile = "/Users/RCastro/workspace/CPEN221-mp5/data/reviews.json";
-	String userFile = "/Users/RCastro/workspace/CPEN221-mp5/data/users.json";
+	String restaurantFile = "/Users/Robert/workspace/CPEN221-mp5/data/restaurants.json";
+	String reviewFile = "/Users/Robert/workspace/CPEN221-mp5/data/reviews.json";
+	String userFile = "/Users/Robert/workspace/CPEN221-mp5/data/users.json";
 	RestaurantDB db = new RestaurantDB(restaurantFile, reviewFile, userFile);
 	List<User> userList = db.getUsers();
 	List<Restaurant> restaurantList = db.getRestaurants();
