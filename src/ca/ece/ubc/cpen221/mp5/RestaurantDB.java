@@ -68,14 +68,63 @@ public class RestaurantDB {
 
     }
 
-   
-
-    
     public Set<Restaurant> query(String queryString) {
         Set<Restaurant> set = new HashSet<Restaurant>();
-        ParseTree tree = FormulaFactory.parse(queryString);
-System.out.println(tree);
+        ArrayList<String> queryList = new ArrayList<String>();
+
+        if (queryString.contains("&&") || queryString.contains("&&")) {
+            // not finished this
+            while (queryString.contains("(")) {
+                int firstOpenParen = queryString.indexOf("(");
+                int lastCloseParen = queryString.lastIndexOf(")");
+                String firstPart;
+                String lastPart;
+                if (firstOpenParen > 0) {
+                    firstPart = queryString.substring(0, firstOpenParen);
+                    lastPart = queryString.substring(firstOpenParen);
+                    if (!firstPart.contains("(")) {
+                        queryList.add(firstPart);
+                    }
+                }
+            }
+        } else {
+
+            queryString.replace("(", " ");
+            queryString.replace("\"", " ");
+            queryString.trim();
+            if (queryString.contains("in")) {
+                queryString.substring(2);
+                queryString.trim();
+                for (int i = 0; i < restaurants.size(); i++) {
+                    if (restaurants.get(i).getNeighborhoods().contains(queryString))
+                        set.add(restaurants.get(i));
+                }
+
+                if (queryString.contains("category")) {
+                    queryString.substring(8);
+                    queryString.trim();
+                    for (int i = 0; i < restaurants.size(); i++) {
+                        if (restaurants.get(i).getCategories().contains(queryString))
+                            set.add(restaurants.get(i));
+                    }
+                    if (queryString.contains("price")) {
+                        queryString.substring(5);
+                        queryString.trim();
+                        String minimum = queryString.substring(0, 1);
+                        String maximum = queryString.substring(3);
+                        int lower = Integer.parseInt(minimum);
+                        int higher = Integer.parseInt(maximum);
+                        for (int i = 0; i < restaurants.size(); i++) {
+                            if (restaurants.get(i).getPrice() >= lower && restaurants.get(i).getPrice() <= higher)
+                                set.add(restaurants.get(i));
+                        }
+
+                    }
+                }
+            }
+        }
         return set;
+
     }
 
     /**
