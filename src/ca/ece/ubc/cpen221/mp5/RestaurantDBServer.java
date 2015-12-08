@@ -33,11 +33,13 @@ public class RestaurantDBServer {
      * @param reviewsJSONfilename
      * @param usersJSONfilename
      * @throws IOException
+     * 
+     * @repInvariant serverSocket != null
      */
     public RestaurantDBServer(int port, String restaurantsJSONfilename, String reviewsJSONfilename,
             String usersJSONfilename) throws IOException {
        database = new RestaurantDB(restaurantsJSONfilename, reviewsJSONfilename, usersJSONfilename);
-       
+       serverSocket = new ServerSocket(port);
        
     }
     public static void main(String[] args){
@@ -174,35 +176,4 @@ public class RestaurantDBServer {
         }
     }
 
-    public static Query parse(String string) {
-        // Create a stream of tokens using the lexer.
-        CharStream stream = new ANTLRInputStream(string);
-        GrammarLexer lexer = new GrammarLexer(stream);
-        lexer.reportErrorsAsExceptions();
-        TokenStream tokens = new CommonTokenStream(lexer);
-
-        // Feed the tokens into the parser.
-        GrammarParser parser = new GrammarParser(tokens);
-        parser.reportErrorsAsExceptions();
-
-        // Generate the parse tree using the starter rule.
-        ParseTree tree = parser.grammar(); // "root" is the starter rule.
-
-        // debugging option #1: print the tree to the console
-        System.err.println(tree.toStringTree(parser));
-
-        // debugging option #2: show the tree in a window
-        ((RuleContext) tree).inspect(parser);
-
-        // debugging option #3: walk the tree with a listener
-        new ParseTreeWalker().walk(new GrammarListener_PrintEverything(), tree);
-
-        // Finally, construct a Document value by walking over the parse tree.
-        ParseTreeWalker walker = new ParseTreeWalker();
-        GrammarListener_GrammarCreator listener = new GrammarListener_GrammarCreator();
-        walker.walk(listener, tree);
-
-        // return the Document value that the listener created
-        return listener.getGrammar();
-    }
 }

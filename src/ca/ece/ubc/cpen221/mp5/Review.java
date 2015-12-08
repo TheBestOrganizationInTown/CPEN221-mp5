@@ -98,13 +98,4 @@ public class Review {
     public void addUsefulVote() {
         usefulVotes++;
     }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setStars(long stars) {
-        this.stars = stars;
-    }
-
 }

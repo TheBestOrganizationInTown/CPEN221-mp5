@@ -114,9 +114,5 @@ public class User {
         averageStars = newTotalStars / (reviewCount + 1);
     }
 
-    public void changeName(String newName) {
-        this.name = newName;
-
-    }
 
 }

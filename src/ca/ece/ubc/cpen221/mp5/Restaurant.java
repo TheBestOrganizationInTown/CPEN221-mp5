@@ -44,6 +44,10 @@ public class Restaurant {
      * @param photoURL
      * @param schools
      * @param price
+     * 
+     * @rep invariant: none of the fields change except review count, which only
+     *      increases when a new review is added
+     * @abs contains private fields for each parameter
      */
 
     public Restaurant(String business_id, String name, boolean open, String url, List<String> categories,
@@ -65,6 +69,7 @@ public class Restaurant {
         this.photoURL = photoURL;
         this.schools = schools;
         this.price = price;
+
     }
 
     // getter methods
@@ -138,91 +143,8 @@ public class Restaurant {
     }
     // methods for editing
 
-    public void changeName(String name) {
-        this.name = name;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public void changeURL(String url) {
-        this.url = url;
-    }
-
-    public void addCategory(String category) {
-        if (!categories.contains(category)) {
-            categories.add(category);
-        }
-    }
-
-    public void removeCategory(String category) {
-        if (categories.contains(category)) {
-            categories.remove(category);
-        }
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void addNeighborhood(String neighborhood) {
-        if (!neighborhoods.contains(neighborhood)) {
-            neighborhoods.add(neighborhood);
-        }
-    }
-
-    public void removeNeighborhood(String neighborhood) {
-        if (neighborhoods.contains(neighborhood)) {
-            neighborhoods.remove(neighborhood);
-        }
-    }
-
-    public void changeState(String state) {
-        this.state = state;
-    }
-
-    public void setStars(double stars) {
-        this.stars = stars;
-    }
-
-    public void changeCity(String city) {
-        this.city = city;
-    }
-
-    public void changeAddress(String address) {
-        this.address = address;
-    }
-
-    public void setReviewCount(int reviewCount) {
-        this.reviewCount = reviewCount;
-    }
-
     public void addReviewCount() {
         reviewCount++;
-    }
-
-    public void changePhotoUrl(String photoURL) {
-        this.photoURL = photoURL;
-    }
-
-    public void addSchool(String school) {
-        if (!schools.contains(school)) {
-            schools.add(school);
-        }
-    }
-    public void removeSchool(String school) {
-        if (schools.contains(school)) {
-            schools.remove(school);
-        }
-    }
-
-    public void changePrice(int price) {
-        this.price = price;
     }
 
 }

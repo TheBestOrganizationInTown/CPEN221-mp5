@@ -1,4 +1,4 @@
-grammar Grammar;
+grammar Formula;
 
 // This puts "package ca.ece.ubc.cpen221.mp5;" at the top of the output Java files.
 @header {

@@ -1,4 +1,4 @@
-// Generated from Grammar.g4 by ANTLR 4.4
+// Generated from Formula.g4 by ANTLR 4.4
 
 package ca.ece.ubc.cpen221.mp5;
 
@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class GrammarParser extends Parser {
+public class FormulaParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -35,7 +35,7 @@ public class GrammarParser extends Parser {
 	};
 
 	@Override
-	public String getGrammarFileName() { return "Grammar.g4"; }
+	public String getGrammarFileName() { return "Formula.g4"; }
 
 	@Override
 	public String[] getTokenNames() { return tokenNames; }
@@ -67,7 +67,7 @@ public class GrammarParser extends Parser {
 	        }
 	    }
 
-	public GrammarParser(TokenStream input) {
+	public FormulaParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -75,13 +75,13 @@ public class GrammarParser extends Parser {
 		public List<AndExprContext> andExpr() {
 			return getRuleContexts(AndExprContext.class);
 		}
-		public TerminalNode EOF() { return getToken(GrammarParser.EOF, 0); }
+		public TerminalNode EOF() { return getToken(FormulaParser.EOF, 0); }
 		public AndExprContext andExpr(int i) {
 			return getRuleContext(AndExprContext.class,i);
 		}
-		public List<TerminalNode> OR() { return getTokens(GrammarParser.OR); }
+		public List<TerminalNode> OR() { return getTokens(FormulaParser.OR); }
 		public TerminalNode OR(int i) {
-			return getToken(GrammarParser.OR, i);
+			return getToken(FormulaParser.OR, i);
 		}
 		public OrExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -89,11 +89,11 @@ public class GrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_orExpr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterOrExpr(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterOrExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitOrExpr(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitOrExpr(this);
 		}
 	}
 
@@ -138,9 +138,9 @@ public class GrammarParser extends Parser {
 			return getRuleContext(AtomContext.class,i);
 		}
 		public TerminalNode AND(int i) {
-			return getToken(GrammarParser.AND, i);
+			return getToken(FormulaParser.AND, i);
 		}
-		public List<TerminalNode> AND() { return getTokens(GrammarParser.AND); }
+		public List<TerminalNode> AND() { return getTokens(FormulaParser.AND); }
 		public List<AtomContext> atom() {
 			return getRuleContexts(AtomContext.class);
 		}
@@ -150,11 +150,11 @@ public class GrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_andExpr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterAndExpr(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterAndExpr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitAndExpr(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitAndExpr(this);
 		}
 	}
 
@@ -200,8 +200,8 @@ public class GrammarParser extends Parser {
 		public OrExprContext orExpr() {
 			return getRuleContext(OrExprContext.class,0);
 		}
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
 		public PriceContext price() {
 			return getRuleContext(PriceContext.class,0);
 		}
@@ -220,11 +220,11 @@ public class GrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_atom; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterAtom(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterAtom(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitAtom(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitAtom(this);
 		}
 	}
 
@@ -288,21 +288,21 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class InContext extends ParserRuleContext {
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
-		public TerminalNode STRING() { return getToken(GrammarParser.STRING, 0); }
-		public TerminalNode IN() { return getToken(GrammarParser.IN, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
+		public TerminalNode STRING() { return getToken(FormulaParser.STRING, 0); }
+		public TerminalNode IN() { return getToken(FormulaParser.IN, 0); }
 		public InContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_in; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterIn(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterIn(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitIn(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitIn(this);
 		}
 	}
 
@@ -330,21 +330,21 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class CategoryContext extends ParserRuleContext {
-		public TerminalNode CATEGORY() { return getToken(GrammarParser.CATEGORY, 0); }
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
-		public TerminalNode STRING() { return getToken(GrammarParser.STRING, 0); }
+		public TerminalNode CATEGORY() { return getToken(FormulaParser.CATEGORY, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
+		public TerminalNode STRING() { return getToken(FormulaParser.STRING, 0); }
 		public CategoryContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_category; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterCategory(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterCategory(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitCategory(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitCategory(this);
 		}
 	}
 
@@ -372,21 +372,21 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class NameContext extends ParserRuleContext {
-		public TerminalNode NAME() { return getToken(GrammarParser.NAME, 0); }
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
-		public TerminalNode STRING() { return getToken(GrammarParser.STRING, 0); }
+		public TerminalNode NAME() { return getToken(FormulaParser.NAME, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
+		public TerminalNode STRING() { return getToken(FormulaParser.STRING, 0); }
 		public NameContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_name; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterName(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterName(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitName(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitName(this);
 		}
 	}
 
@@ -414,9 +414,9 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class RatingContext extends ParserRuleContext {
-		public TerminalNode RATING() { return getToken(GrammarParser.RATING, 0); }
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
+		public TerminalNode RATING() { return getToken(FormulaParser.RATING, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
 		public RangeContext range() {
 			return getRuleContext(RangeContext.class,0);
 		}
@@ -426,11 +426,11 @@ public class GrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_rating; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterRating(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterRating(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitRating(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitRating(this);
 		}
 	}
 
@@ -458,9 +458,9 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class PriceContext extends ParserRuleContext {
-		public TerminalNode PRICE() { return getToken(GrammarParser.PRICE, 0); }
-		public TerminalNode RParen() { return getToken(GrammarParser.RParen, 0); }
-		public TerminalNode LParen() { return getToken(GrammarParser.LParen, 0); }
+		public TerminalNode PRICE() { return getToken(FormulaParser.PRICE, 0); }
+		public TerminalNode RParen() { return getToken(FormulaParser.RParen, 0); }
+		public TerminalNode LParen() { return getToken(FormulaParser.LParen, 0); }
 		public RangeContext range() {
 			return getRuleContext(RangeContext.class,0);
 		}
@@ -470,11 +470,11 @@ public class GrammarParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_price; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterPrice(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterPrice(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitPrice(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitPrice(this);
 		}
 	}
 
@@ -503,21 +503,21 @@ public class GrammarParser extends Parser {
 
 	public static class RangeContext extends ParserRuleContext {
 		public TerminalNode NUMBER(int i) {
-			return getToken(GrammarParser.NUMBER, i);
+			return getToken(FormulaParser.NUMBER, i);
 		}
-		public TerminalNode TO() { return getToken(GrammarParser.TO, 0); }
-		public List<TerminalNode> NUMBER() { return getTokens(GrammarParser.NUMBER); }
+		public TerminalNode TO() { return getToken(FormulaParser.TO, 0); }
+		public List<TerminalNode> NUMBER() { return getTokens(FormulaParser.NUMBER); }
 		public RangeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_range; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).enterRange(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).enterRange(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof GrammarListener ) ((GrammarListener)listener).exitRange(this);
+			if ( listener instanceof FormulaListener ) ((FormulaListener)listener).exitRange(this);
 		}
 	}
 

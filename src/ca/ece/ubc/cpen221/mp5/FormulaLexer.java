@@ -1,4 +1,4 @@
-// Generated from Grammar.g4 by ANTLR 4.4
+// Generated from Formula.g4 by ANTLR 4.4
 
 package ca.ece.ubc.cpen221.mp5;
 
@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class GrammarLexer extends Lexer {
+public class FormulaLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.4", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -54,13 +54,13 @@ public class GrammarLexer extends Lexer {
 	    }
 
 
-	public GrammarLexer(CharStream input) {
+	public FormulaLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Grammar.g4"; }
+	public String getGrammarFileName() { return "Formula.g4"; }
 
 	@Override
 	public String[] getTokenNames() { return tokenNames; }

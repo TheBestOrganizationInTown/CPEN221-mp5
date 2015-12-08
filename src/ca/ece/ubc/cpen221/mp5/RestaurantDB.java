@@ -14,6 +14,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import ca.ece.ubc.cpen221.mp5.User;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -56,11 +64,14 @@ public class RestaurantDB {
         users = processUserFile(usersJSONfilename);
         reviews = processReviewFile(reviewsJSONfilename);
         restaurants = processRestaurantFile(restaurantsJSONfilename);
+
     }
 
+   
+
+    
     public Set<Restaurant> query(String queryString) {
-        // TODO: Implement this method
-        // Write specs, etc.
+        
         return null;
     }
 
@@ -139,6 +150,12 @@ public class RestaurantDB {
         return JSONreview;
     }
 
+    /**
+     * Turns a review object into a properly formatted JSON string
+     * 
+     * @param review
+     * @return string a JSON string containing the review info
+     */
     public String toJSONReviewString(Review review) {
         Map<String, Object> JSONreview = new LinkedHashMap<String, Object>();
         JSONreview.put("type", review.getType());
@@ -147,7 +164,6 @@ public class RestaurantDB {
         votes.put("cool", review.getCoolVotes());
         votes.put("useful", review.getUsefulVotes());
         votes.put("funny", review.getFunnyVotes());
-        
 
         JSONreview.put("votes", votes);
         JSONreview.put("review_id", review.getReviewID());
@@ -161,6 +177,12 @@ public class RestaurantDB {
 
     }
 
+    /**
+     * Turns a restaurant object into a properly formatted JSON string
+     * 
+     * @param restaurant
+     * @return string a JSON string containing the restaurant info
+     */
     public String toJSONRestaurantString(Restaurant restaurant) {
         Map<String, Object> JSONrestaurant = new LinkedHashMap<String, Object>();
         JSONrestaurant.put("open", restaurant.getOpen());
@@ -367,8 +389,6 @@ public class RestaurantDB {
             String user_id = (String) jsonObject.get("user_id");
             String date = (String) jsonObject.get("date");
 
-          
-            
             Review review = new Review(review_id, business_id, text, funnyVotes, coolVotes, usefulVotes, stars, user_id,
                     date);
             // check if review is already in database
@@ -381,15 +401,21 @@ public class RestaurantDB {
             }
             if (!reviewAlreadyExists) {
                 reviews.add(review);
-                for (int i = 0; i < users.size(); i++) {
+                for (int i = 0; i < restaurants.size(); i++) {
+                    if (restaurants.get(i).getBusinessID().equals(review.getBusinessID())) {
+                        restaurants.get(i).addReviewCount();
+                        break;
+                    }
+                }
+                for (int i1 = 0; i1 < users.size(); i1++) {
                     // if a review is being added by a current user, that user
                     // should be updated
-                    if (users.get(i).getUserID().equals(review.getUserID())) {
-                        users.get(i).increaseReviewCount();
-                        users.get(i).recalculateAverageStars(review.getStars());
-                        users.get(i).addCoolVotes(review.getCoolVotes());
-                        users.get(i).addFunnyVotes(review.getFunnyVotes());
-                        users.get(i).addUsefulVotes(review.getUsefulVotes());
+                    if (users.get(i1).getUserID().equals(review.getUserID())) {
+                        users.get(i1).increaseReviewCount();
+                        users.get(i1).recalculateAverageStars(review.getStars());
+                        users.get(i1).addCoolVotes(review.getCoolVotes());
+                        users.get(i1).addFunnyVotes(review.getFunnyVotes());
+                        users.get(i1).addUsefulVotes(review.getUsefulVotes());
                     }
                 }
                 added = true;
