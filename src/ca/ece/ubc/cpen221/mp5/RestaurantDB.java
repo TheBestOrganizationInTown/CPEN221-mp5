@@ -147,9 +147,9 @@ public class RestaurantDB {
         votes.put("cool", review.getCoolVotes());
         votes.put("useful", review.getUsefulVotes());
         votes.put("funny", review.getFunnyVotes());
-        String jsonVotes = JSONValue.toJSONString(votes);
+        
 
-        JSONreview.put("votes", jsonVotes);
+        JSONreview.put("votes", votes);
         JSONreview.put("review_id", review.getReviewID());
         JSONreview.put("text", review.getText());
         JSONreview.put("stars", review.getStars());
@@ -282,7 +282,7 @@ public class RestaurantDB {
                 added = true;
             }
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
+            System.out.println("Parse Exception");
             e.printStackTrace();
         }
         return added;
@@ -332,7 +332,7 @@ public class RestaurantDB {
                 added = true;
             }
         } catch (ParseException e) {
-
+            System.out.println("Parse Exception User");
             e.printStackTrace();
         }
         return added;
@@ -357,16 +357,18 @@ public class RestaurantDB {
             String review_id = (String) jsonObject.get("review_id");
             String business_id = (String) jsonObject.get("business_id");
             String text = (String) jsonObject.get("text");
-
             JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
 
             long funnyVotes = (long) listOfVotes.get("funny");
             long usefulVotes = (long) listOfVotes.get("useful");
             long coolVotes = (long) listOfVotes.get("cool");
+
             long stars = (long) jsonObject.get("stars");
             String user_id = (String) jsonObject.get("user_id");
             String date = (String) jsonObject.get("date");
 
+          
+            
             Review review = new Review(review_id, business_id, text, funnyVotes, coolVotes, usefulVotes, stars, user_id,
                     date);
             // check if review is already in database
@@ -393,6 +395,7 @@ public class RestaurantDB {
                 added = true;
             }
         } catch (ParseException e) {
+            System.out.println("Parse Exception Review");
             e.printStackTrace();
         }
         return added;

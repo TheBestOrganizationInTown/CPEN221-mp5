@@ -20,7 +20,7 @@ public class RestaurantDBTest {
     String restaurantFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/restaurants.json";
     String reviewFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/reviews.json";
     String userFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json";
-    Review extraReview = new Review("AAAAAJ9ApUcvonP_Byqz7A", "AAAAABBBBUcvonP_Byqz7A", "Tasty", 8, 6, 14, 4,
+    Review extraReview = new Review("AAAAAJ9ApUcvonP_Byqz7A", "1dS4wRFdtbPRy3tHezpNQg", "Tasty", 8, 6, 14, 4,
             "AAAAAJJJJcvonP_Byqz7A", "2015-11-08");
 
     ArrayList<String> schools = new ArrayList<String>();
@@ -367,12 +367,7 @@ public class RestaurantDBTest {
                 String review_id = (String) jsonObject.get("review_id");
                 String business_id = (String) jsonObject.get("business_id");
                 String text = (String) jsonObject.get("text");
-                // removed test for votes because it kept saying a string could
-                // not be converted to a JSON object, even though the code I
-                // used was the exact same as that of processReviewFile which
-                // has no problem getting the info from votes. this line causes
-                // the problems "JSONObject listOfVotes = (JSONObject)
-                // jsonObject.get("votes");"
+                
                 long stars = (long) jsonObject.get("stars");
                 String user_id = (String) jsonObject.get("user_id");
                 String date = (String) jsonObject.get("date");
@@ -403,7 +398,7 @@ public class RestaurantDBTest {
     public void shouldAddUser() {
         String extraUser = "{\"url\": \"www.yelp.com.user_details?userid=AAAAAJJJJcvonP_Byqz7A\", \"votes\": {\"funny\": 98, \"useful\": 273, \"cool\": 148}, \"review_count\": 222, \"type\": \"user\", \"user_id\": \"AAAAAJJJJcvonP_Byqz7A\", \"name\": \"B. S.\", \"average_stars\": 4.2}";
         RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
-        assert(database.addReview(extraUser));
+        assert(database.addUser(extraUser));
 
     }
 
@@ -411,8 +406,7 @@ public class RestaurantDBTest {
     public void shouldAddRestaurant() {
         RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
         String JSONrestaurant = database.toJSONRestaurantString(extraRestaurant);
-        System.out.println(JSONrestaurant);
-        assert(database.addReview(JSONrestaurant));
+        assert(database.addRestaurant(JSONrestaurant));
 
     }
 
@@ -420,10 +414,15 @@ public class RestaurantDBTest {
     public void shouldAddReview() {
         RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
         String JSONreview = database.toJSONReviewString(extraReview);
+
         assert(database.addReview(JSONreview));
-        String addedReview = database.getRestaurant("AAAAABBBBUcvonP_Byqz7A");
-        assert(addedReview.contains("AAAAAJ9ApUcvonP_Byqz7A"));
-        assert(addedReview.contains("Tasty"));
+        ArrayList<Review> list = database.getRestaurantsReviews("1dS4wRFdtbPRy3tHezpNQg");
+
+        for(int i = 0; i < list.size(); i++){
+           if( list.get(i).getReviewID().equals("AAAAAJ9ApUcvonP_Byqz7A")){
+               assert(list.get(i).getText().equals("Tasty"));
+            }
+        }
 
     }
 }
