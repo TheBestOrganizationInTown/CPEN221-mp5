@@ -11,11 +11,21 @@ public class AlgorithmsTest {
     String reviewFile = "/Users/RCastro/workspace/CPEN221-mp5/data/reviews.json";
     String userFile = "/Users/RCastro/workspace/CPEN221-mp5/data/users.json";
 	RestaurantDB db = new RestaurantDB(restaurantFile, reviewFile, userFile);
-	
+
 	@Test
-	public void test() {
+	public void printTest() {
 		List<Set<Restaurant>> clusters = Algorithms.kMeansClustering(100, db);
 		System.out.println(Algorithms.convertClustersToJSON(clusters));
+	}
+	
+	@Test
+	public void predictorTest() {
+		
+	}
+	
+	@Test
+	public void bestPredictorTest() {
+		
 	}
 
 }

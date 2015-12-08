@@ -65,35 +65,68 @@ public class Algorithms {
 		return stringJSON;
 	}
 
-	public static MP5Function getPredictor(User u, RestaurantDB db, MP5Function featureFunction) {
-		// TODO: Implement this method
-		return null;
+	public static LinearRegressionFunction getPredictor(User u, RestaurantDB db, MP5Function featureFunction) {
+		String UserID = u.getUserID();
+		List<Review> reviews = db.getReviews();
+		List<Restaurant> restaurants = db.getRestaurants();
+
+		List<Double> inputs = new ArrayList<Double>();
+		List<Double> outputs = new ArrayList<Double>();
+
+		Map<String, Restaurant> restaurantIDs = mapIDs(restaurants);
+
+		Iterator<Review> reviewIterator = reviews.iterator();
+		while (reviewIterator.hasNext()) {
+			Review currentReview = reviewIterator.next();
+			if (currentReview.getUserID().equals(UserID)) {
+				inputs.add(featureFunction.f(restaurantIDs.get(currentReview.getBusinessID()), db));
+				outputs.add((double) currentReview.getStars());
+			}
+		}
+		
+		LinearRegressionFunction linearRegression = new LinearRegressionFunction(inputs, outputs);
+		return linearRegression;
 	}
 
 	public static MP5Function getBestPredictor(User u, RestaurantDB db, List<MP5Function> featureFunctionList) {
-		// TODO: Implement this method
-		return null;
+		MP5Function currentFeature = featureFunctionList.get(0);
+		LinearRegressionFunction currentLinearRegression = getPredictor(u, db, currentFeature);
+		LinearRegressionFunction comparedRegression;
+		
+		double currentR2 = currentLinearRegression.getR2();
+		double r2Compared;
+		
+		for(int i = 1; i < featureFunctionList.size(); i++){
+			comparedRegression = getPredictor(u, db, featureFunctionList.get(i));
+			r2Compared = comparedRegression.getR2();
+			
+			if(r2Compared > currentR2){
+				currentR2 = new Double(r2Compared);
+				currentFeature = featureFunctionList.get(i);
+			}
+		}
+		return currentFeature;
 	}
 
 	/**
-	 * Returns a map of all the restaurants and their locations given by
+	 * Returns a map of all the restaurants and their business IDs given by
 	 * restaurantList
 	 * 
 	 * @param restaurantList
 	 * @return
 	 */
-	private static Map<Restaurant, Location> populateMap(List<Restaurant> restaurantList) {
-		Map<Restaurant, Location> restaurantMap = new HashMap<Restaurant, Location>();
-		Location currentLocation;
+	private static Map<String, Restaurant> mapIDs(List<Restaurant> restaurantList) {
+		Map<String, Restaurant> restaurantMap = new HashMap<String, Restaurant>();
+		String currentID;
 		Iterator<Restaurant> restaurantIterator = restaurantList.iterator();
 
 		while (restaurantIterator.hasNext()) {
 			Restaurant currentRestaurant = restaurantIterator.next();
-			currentLocation = new Location(currentRestaurant);
-			restaurantMap.put(currentRestaurant, currentLocation);
+			currentID = currentRestaurant.getBusinessID();
+			restaurantMap.put(currentID, currentRestaurant);
 		}
 
-		return new HashMap<Restaurant, Location>(restaurantMap);
+		return new HashMap<String, Restaurant>(restaurantMap);
 	}
 
 	/**
@@ -120,7 +153,7 @@ public class Algorithms {
 
 				listCopy.remove(randomIndex);
 				seedMap.put(i, randomLocation);
-			} 
+			}
 		}
 
 		return new HashMap<Integer, Location>(seedMap);
