@@ -77,16 +77,22 @@ public class User {
 
     // methods for editing a user
 
-    public void addFunnyVote() {
-        funnyVotes++;
+    public void addFunnyVotes(long number) {
+        for (int i = 0; i < number; i++) {
+            funnyVotes++;
+        }
     }
 
-    public void addCoolVote() {
-        coolVotes++;
+    public void addCoolVotes(long number) {
+        for (int i = 0; i < number; i++) {
+            coolVotes++;
+        }
     }
 
-    public void addUsefulVote() {
-        usefulVotes++;
+    public void addUsefulVotes(long number) {
+        for (int i = 0; i < number; i++) {
+            usefulVotes++;
+        }
     }
 
     public void increaseReviewCount() {
@@ -102,7 +108,7 @@ public class User {
      * @modifies averageStars: calculates the new averageStars and replaces the
      *           old average with the new one
      */
-    public void recalculateAverageStars(int rating) {
+    public void recalculateAverageStars(long rating) {
         Double totalStars = averageStars * reviewCount;
         Double newTotalStars = totalStars + rating;
         averageStars = newTotalStars / (reviewCount + 1);

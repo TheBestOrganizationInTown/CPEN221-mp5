@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
@@ -63,6 +64,15 @@ public class RestaurantDB {
         return null;
     }
 
+    /**
+     * Gets and returns the businessID of the restaurant corresponding to the
+     * given name. Returns the ID of the first restaurant with this name that is
+     * found in the list. Returns "Not Found" if this restaurant does not exist.
+     * 
+     * @param restaurantName
+     * @return name the businessID of the restaurant, or "Not Found" if it
+     *         doesn't exist
+     */
     public String getRestaurantsBusinessID(String restaurantName) {
         String businessID = "Not Found";
         for (int i = 0; i < restaurants.size(); i++) {
@@ -75,6 +85,13 @@ public class RestaurantDB {
         return businessID;
     }
 
+    /**
+     * Gets all the reviews corresponding to a certain business and puts them in
+     * a list.
+     * 
+     * @param businessID
+     * @return list of all reviews for the given business
+     */
     public ArrayList<Review> getRestaurantsReviews(String businessID) {
         ArrayList<Review> list = new ArrayList<Review>();
         for (int i = 0; i < reviews.size(); i++) {
@@ -123,10 +140,10 @@ public class RestaurantDB {
     }
 
     public String toJSONReviewString(Review review) {
-        Map<String, Object> JSONreview = new LinkedHashMap();
+        Map<String, Object> JSONreview = new LinkedHashMap<String, Object>();
         JSONreview.put("type", review.getType());
         JSONreview.put("business_id", review.getBusinessID());
-        Map<String, Object> votes = new LinkedHashMap();
+        Map<String, Object> votes = new LinkedHashMap<String, Object>();
         votes.put("cool", review.getCoolVotes());
         votes.put("useful", review.getUsefulVotes());
         votes.put("funny", review.getFunnyVotes());
@@ -145,7 +162,7 @@ public class RestaurantDB {
     }
 
     public String toJSONRestaurantString(Restaurant restaurant) {
-        Map<String, Object> JSONrestaurant = new LinkedHashMap();
+        Map<String, Object> JSONrestaurant = new LinkedHashMap<String, Object>();
         JSONrestaurant.put("open", restaurant.getOpen());
         JSONrestaurant.put("url", restaurant.getURL());
         JSONrestaurant.put("longitude", restaurant.getLongitude());
@@ -195,8 +212,10 @@ public class RestaurantDB {
      * restaurant with the same name and address is already in the database.
      * 
      * @param JSONrestaurant
+     * @return true if the restaurant was added, false otherwise
      */
-    public void addRestaurant(String JSONrestaurant) {
+    public boolean addRestaurant(String JSONrestaurant) {
+        boolean added = false;
         JSONParser parser = new JSONParser();
         Object obj;
         try {
@@ -258,14 +277,15 @@ public class RestaurantDB {
                     restaurantAlreadyExists = true;
                 }
             }
-            if (!restaurantAlreadyExists)
+            if (!restaurantAlreadyExists) {
                 restaurants.add(restaurant);
-
+                added = true;
+            }
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
+        return added;
     }
 
     /**
@@ -273,45 +293,49 @@ public class RestaurantDB {
      * already in the database.
      * 
      * @param JSONuser
+     * @return true if the user was added, false otherwise
      */
-    public void addUser(String JSONuser) {
+    public boolean addUser(String JSONuser) {
+        boolean added = false;
         JSONParser parser = new JSONParser();
         Object obj;
         try {
             obj = parser.parse(JSONuser);
-       
 
-        JSONObject jsonObject = (JSONObject) obj;
-        String JSONstring = jsonObject.toJSONString();
+            JSONObject jsonObject = (JSONObject) obj;
 
-        String user_id = (String) jsonObject.get("user_id");
-        String name = (String) jsonObject.get("name");
-        String url = (String) jsonObject.get("url");
-        long reviewCount = (long) jsonObject.get("review_count");
-        Double averageStars = (Double) jsonObject.get("average_stars");
-        JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
+            String user_id = (String) jsonObject.get("user_id");
+            String name = (String) jsonObject.get("name");
+            String url = (String) jsonObject.get("url");
+            long reviewCount = (long) jsonObject.get("review_count");
+            Double averageStars = (Double) jsonObject.get("average_stars");
+            JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
 
-        long funnyVotes = (long) listOfVotes.get("funny");
-        long usefulVotes = (long) listOfVotes.get("useful");
-        long coolVotes = (long) listOfVotes.get("cool");
+            long funnyVotes = (long) listOfVotes.get("funny");
+            long usefulVotes = (long) listOfVotes.get("useful");
+            long coolVotes = (long) listOfVotes.get("cool");
 
-        User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes, coolVotes, usefulVotes);
-        
-     // check if user is already in database
-        boolean userAlreadyExists = false;
+            User user = new User(user_id, name, url, reviewCount, averageStars, funnyVotes, coolVotes, usefulVotes);
 
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getName().equals(user.getName())
-                    && users.get(i).getUserID().equals((user.getUserID()))) {
-                        userAlreadyExists = true;
+            // check if user is already in database
+            boolean userAlreadyExists = false;
+
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getName().equals(user.getName())
+                        && users.get(i).getUserID().equals((user.getUserID()))) {
+                    userAlreadyExists = true;
+                    break;
+                }
             }
-        }
-        if (!userAlreadyExists)
-            users.add(user);
+            if (!userAlreadyExists) {
+                users.add(user);
+                added = true;
+            }
         } catch (ParseException e) {
 
             e.printStackTrace();
         }
+        return added;
     }
 
     /**
@@ -319,9 +343,59 @@ public class RestaurantDB {
      * already in the database.
      * 
      * @param JSONreview
+     * @return true if the review was added, false otherwise
      */
-    public void addReview(String JSONreview) {
+    public boolean addReview(String JSONreview) {
+        boolean added = false;
+        JSONParser parser = new JSONParser();
+        Object obj;
+        try {
+            obj = parser.parse(JSONreview);
 
+            JSONObject jsonObject = (JSONObject) obj;
+
+            String review_id = (String) jsonObject.get("review_id");
+            String business_id = (String) jsonObject.get("business_id");
+            String text = (String) jsonObject.get("text");
+
+            JSONObject listOfVotes = (JSONObject) jsonObject.get("votes");
+
+            long funnyVotes = (long) listOfVotes.get("funny");
+            long usefulVotes = (long) listOfVotes.get("useful");
+            long coolVotes = (long) listOfVotes.get("cool");
+            long stars = (long) jsonObject.get("stars");
+            String user_id = (String) jsonObject.get("user_id");
+            String date = (String) jsonObject.get("date");
+
+            Review review = new Review(review_id, business_id, text, funnyVotes, coolVotes, usefulVotes, stars, user_id,
+                    date);
+            // check if review is already in database
+            boolean reviewAlreadyExists = false;
+            for (int i = 0; i < reviews.size(); i++) {
+                if (reviews.get(i).getReviewID().equals(review.getReviewID())) {
+                    reviewAlreadyExists = true;
+                    break;
+                }
+            }
+            if (!reviewAlreadyExists) {
+                reviews.add(review);
+                for (int i = 0; i < users.size(); i++) {
+                    // if a review is being added by a current user, that user
+                    // should be updated
+                    if (users.get(i).getUserID().equals(review.getUserID())) {
+                        users.get(i).increaseReviewCount();
+                        users.get(i).recalculateAverageStars(review.getStars());
+                        users.get(i).addCoolVotes(review.getCoolVotes());
+                        users.get(i).addFunnyVotes(review.getFunnyVotes());
+                        users.get(i).addUsefulVotes(review.getUsefulVotes());
+                    }
+                }
+                added = true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return added;
     }
 
     /**
@@ -343,7 +417,7 @@ public class RestaurantDB {
                     Object obj = parser.parse(userFile.readLine());
 
                     JSONObject jsonObject = (JSONObject) obj;
-                   
+
                     String user_id = (String) jsonObject.get("user_id");
                     String name = (String) jsonObject.get("name");
                     String url = (String) jsonObject.get("url");
@@ -486,6 +560,7 @@ public class RestaurantDB {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
         }
@@ -520,13 +595,6 @@ public class RestaurantDB {
     public ArrayList<Review> getReviews() {
         ArrayList<Review> list = processReviewFile(reviewFile);
         return list;
-    }
-
-    private User createUserFromJSONText(JSONObject text) {
-
-        User user = null;
-        return user;
-
     }
 
 }
