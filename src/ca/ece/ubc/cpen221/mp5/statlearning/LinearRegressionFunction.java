@@ -13,8 +13,13 @@ public class LinearRegressionFunction implements MP5Function {
 	private final double b;
 	private final double a;
 	private final double r_squared;
+	
+	private final double xMean;
+	private final double yMean;
+	
+	private final MP5Function featureFunction;
 
-	public LinearRegressionFunction(List<Double> inputs, List<Double> outputs) {
+	public LinearRegressionFunction(List<Double> inputs, List<Double> outputs, MP5Function featureFunction) {
 		this.Sxx = sValueXXYY(inputs);
 		this.Syy = sValueXXYY(outputs);
 		this.Sxy = sValueXY(inputs, outputs);
@@ -22,6 +27,11 @@ public class LinearRegressionFunction implements MP5Function {
 		this.b = this.Sxy/ this.Sxx;
 		this.a = getMean(outputs) - this.b*getMean(inputs);
 		this.r_squared = this.Sxy*this.Sxy / (this.Sxx*this.Syy);
+		
+		this.xMean = getMean(inputs);
+		this.yMean = getMean(outputs);
+		
+		this.featureFunction = featureFunction;
 		
 	}
 	
@@ -111,9 +121,24 @@ public class LinearRegressionFunction implements MP5Function {
 		return new Double(this.b);
 	}
 	
+	public MP5Function getFeature() {
+		return this.featureFunction;
+	}
+	
+	public double getyMean() {
+		return new Double(this.yMean);
+	}
+	
+	public double getxMean() {
+		return new Double(this.xMean);
+	}
+	
 	@Override
 	public double f(Restaurant yelpRestaurant, RestaurantDB db) {
-		// TODO Auto-generated method stub
-		return 0;
+		double predictedRating;
+		
+		predictedRating = this.getA() + this.getB()*this.getFeature().f(yelpRestaurant, db);
+		
+		return predictedRating;
 	}
 }

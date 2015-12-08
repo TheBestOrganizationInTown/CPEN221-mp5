@@ -76,6 +76,7 @@ public class Algorithms {
 		Map<String, Restaurant> restaurantIDs = mapIDs(restaurants);
 
 		Iterator<Review> reviewIterator = reviews.iterator();
+
 		while (reviewIterator.hasNext()) {
 			Review currentReview = reviewIterator.next();
 			if (currentReview.getUserID().equals(UserID)) {
@@ -83,8 +84,8 @@ public class Algorithms {
 				outputs.add((double) currentReview.getStars());
 			}
 		}
-		
-		LinearRegressionFunction linearRegression = new LinearRegressionFunction(inputs, outputs);
+
+		LinearRegressionFunction linearRegression = new LinearRegressionFunction(inputs, outputs, featureFunction);
 		return linearRegression;
 	}
 
@@ -92,15 +93,15 @@ public class Algorithms {
 		MP5Function currentFeature = featureFunctionList.get(0);
 		LinearRegressionFunction currentLinearRegression = getPredictor(u, db, currentFeature);
 		LinearRegressionFunction comparedRegression;
-		
+
 		double currentR2 = currentLinearRegression.getR2();
 		double r2Compared;
-		
-		for(int i = 1; i < featureFunctionList.size(); i++){
+
+		for (int i = 1; i < featureFunctionList.size(); i++) {
 			comparedRegression = getPredictor(u, db, featureFunctionList.get(i));
 			r2Compared = comparedRegression.getR2();
-			
-			if(r2Compared > currentR2){
+
+			if (r2Compared > currentR2) {
 				currentR2 = new Double(r2Compared);
 				currentFeature = featureFunctionList.get(i);
 			}

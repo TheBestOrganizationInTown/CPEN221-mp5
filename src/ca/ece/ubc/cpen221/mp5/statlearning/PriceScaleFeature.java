@@ -8,7 +8,6 @@ public class PriceScaleFeature implements MP5Function {
 	@Override
 	public double f(Restaurant yelpRestaurant, RestaurantDB db) {
 		long price = yelpRestaurant.getPrice();
-		System.out.println(yelpRestaurant.getCategories());
 		return price;
 	}
 
