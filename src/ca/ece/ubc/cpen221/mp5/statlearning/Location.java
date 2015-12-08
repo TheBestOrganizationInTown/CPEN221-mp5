@@ -15,7 +15,6 @@ public class Location {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-	
 	public double getLatitude(){
 		return new Double(this.latitude);
 	}

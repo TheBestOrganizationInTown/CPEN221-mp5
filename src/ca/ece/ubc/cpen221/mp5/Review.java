@@ -29,8 +29,8 @@ public class Review {
      * @param user_id
      * @param date
      */
-    public Review(String review_id, String business_id, String text, long funnyVotes, long coolVotes,
-            long usefulVotes, long stars, String user_id, String date) {
+    public Review(String review_id, String business_id, String text, long funnyVotes, long coolVotes, long usefulVotes,
+            long stars, String user_id, String date) {
         this.review_id = review_id;
         this.business_id = business_id;
         this.text = text;
@@ -42,9 +42,9 @@ public class Review {
         this.date = date;
 
     }
-   
-    //getter methods
-    
+
+    // getter methods
+
     public String getReviewID() {
         return new String(review_id);
     }
@@ -85,8 +85,8 @@ public class Review {
         return new String(type);
     }
 
-//methods for editing reviews 
-    
+    // methods for editing reviews
+
     public void addFunnyVote() {
         funnyVotes++;
     }
