@@ -20,6 +20,14 @@ public class RestaurantDBTest {
     String restaurantFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/restaurants.json";
     String reviewFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/reviews.json";
     String userFile = "/Users/danger/Documents/workspace/CPEN221-mp5/data/users.json";
+    Review extraReview = new Review("AAAAAJ9ApUcvonP_Byqz7A", "AAAAABBBBUcvonP_Byqz7A", "Tasty", 8, 6, 14, 4,
+            "AAAAAJJJJcvonP_Byqz7A", "2015-11-08");
+
+    ArrayList<String> schools = new ArrayList<String>();
+    ArrayList<String> neighborhoods = new ArrayList<String>();
+    ArrayList<String> categories = new ArrayList<String>();
+    Restaurant extraRestaurant = new Restaurant("AAAAABBBBUcvonP_Byqz7A", "Bob's Burgers", true, "http://www.yelp.ca",
+            categories, 0, 0, neighborhoods, "BC", 0, "vancouver", "PO Box 12345", 0, "www.ubc.ca", schools, 2);
 
     @Test
 
@@ -391,6 +399,31 @@ public class RestaurantDBTest {
         assert(reviewFound);
     }
 
-    
+    @Test
+    public void shouldAddUser() {
+        String extraUser = "{\"url\": \"www.yelp.com.user_details?userid=AAAAAJJJJcvonP_Byqz7A\", \"votes\": {\"funny\": 98, \"useful\": 273, \"cool\": 148}, \"review_count\": 222, \"type\": \"user\", \"user_id\": \"AAAAAJJJJcvonP_Byqz7A\", \"name\": \"B. S.\", \"average_stars\": 4.2}";
+        RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
+        assert(database.addReview(extraUser));
 
+    }
+
+    @Test
+    public void shouldAddRestaurant() {
+        RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
+        String JSONrestaurant = database.toJSONRestaurantString(extraRestaurant);
+        System.out.println(JSONrestaurant);
+        assert(database.addReview(JSONrestaurant));
+
+    }
+
+    @Test
+    public void shouldAddReview() {
+        RestaurantDB database = new RestaurantDB(restaurantFile, reviewFile, userFile);
+        String JSONreview = database.toJSONReviewString(extraReview);
+        assert(database.addReview(JSONreview));
+        String addedReview = database.getRestaurant("AAAAABBBBUcvonP_Byqz7A");
+        assert(addedReview.contains("AAAAAJ9ApUcvonP_Byqz7A"));
+        assert(addedReview.contains("Tasty"));
+
+    }
 }
